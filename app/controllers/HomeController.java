@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import views.html.*;
 import play.data.*;
+import java.lang.*;
 
 import javax.inject.Inject;
 import play.mvc.Http.Request;
@@ -13,7 +14,9 @@ import play.mvc.Http.Request;
  * to the application's home page.
  */
 public class HomeController extends Controller {
-
+	
+	final String base_url="https://www.freelancer.com/api/projects/0.1/projects/active?query=";
+	String finalQuery;
 	@Inject
 	FormFactory formFactory;
 
@@ -31,7 +34,8 @@ public class HomeController extends Controller {
 	public CompletionStage<Result> Search(Http.Request request) {
 		
 		final String query = formFactory.form().bindFromRequest(request).get("query");
-		return CompletableFuture.completedFuture(ok(views.html.index.render(query)));
+		finalQuery = base_url.concat(query);
+		return CompletableFuture.completedFuture(ok(views.html.index.render(finalQuery)));
 		
 		
     }
