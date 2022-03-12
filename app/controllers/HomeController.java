@@ -5,7 +5,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import views.html.*;
 import play.data.*;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import javax.inject.Inject;
 import play.mvc.Http.Request;
@@ -34,8 +39,33 @@ public class HomeController extends Controller {
 	public CompletionStage<Result> Search(Http.Request request) {
 		
 		final String query = formFactory.form().bindFromRequest(request).get("query");
-		finalQuery = base_url.concat(query);
-		return CompletableFuture.completedFuture(ok(views.html.index.render(finalQuery)));
+		
+		String output;
+		
+		try {
+		URL url = new URL(base_url.concat(query.trim().replaceAll(" ", "")));
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("Accept", "application/json");
+
+		if (conn.getResponseCode() != 200) {
+			output = "Failed";
+		}
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+			(conn.getInputStream())));
+
+		output = "Output from Server .... \n";
+		// while ((output = br.readLine()) != null) {
+			// System.out.println(output);
+		// }
+
+		conn.disconnect();
+		}
+		catch(Exception e) {
+			output = e.getCause().toString();
+		}
+		return CompletableFuture.completedFuture(ok(views.html.index.render(output)));
 		
 		
     }
