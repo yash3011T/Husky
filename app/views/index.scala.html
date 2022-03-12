@@ -1,15 +1,16 @@
-@()
+@(message: String)
 
 @main("Welcome to Freelancelot") {
   <h1 align="center">Welcome to Freelancelot</h1>
   
   <div id="search" align="center">
-        <form id="searchForm">
-            <input id="query" type="text" placeholder="Keywords" value="Enter search terms">
+        <form id="searchForm" actions="@routes.HomeController.index()" method="POST">
+            <input id="phrase" name="query" type="text" placeholder="Keywords" value=" ">
+           
             <button type="submit" class="btn"> Go!</button>
         </form>
-
-        <div id="tweets"></div>
+				
+	<div id="result"><p>@message</p></div>
     </div>
 
     <style>
