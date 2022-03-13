@@ -14,6 +14,7 @@ import java.net.URL;
 
 import javax.inject.Inject;
 import play.mvc.Http.Request;
+import play.api.libs.json.*;
 /**
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
@@ -21,7 +22,7 @@ import play.mvc.Http.Request;
 public class HomeController extends Controller {
 	
 	final String base_url="https://www.freelancer.com/api/projects/0.1/projects/active?query=";
-	String finalQuery;
+
 	@Inject
 	FormFactory formFactory;
 
@@ -33,14 +34,16 @@ public class HomeController extends Controller {
      */
 	public CompletionStage<Result> index() {
 		
-        return CompletableFuture.completedFuture(ok(views.html.index.render(" ")));
+        return CompletableFuture.completedFuture(ok(views.html.index.render("")));
     }
 	
 	public CompletionStage<Result> Search(Http.Request request) {
 		
+		
 		final String query = formFactory.form().bindFromRequest(request).get("query");
 		
 		String output;
+		String place_id;
 		
 		try {
 		URL url = new URL(base_url.concat(query.trim().replaceAll(" ", "")));
@@ -54,19 +57,19 @@ public class HomeController extends Controller {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 			(conn.getInputStream())));
-
-		output = "Output from Server .... \n";
-		// while ((output = br.readLine()) != null) {
-			// System.out.println(output);
-		// }
+		StringBuilder sb = new StringBuilder();
+		String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line + "\n");
+        }
+        br.close();
 
 		conn.disconnect();
 		}
 		catch(Exception e) {
 			output = e.getCause().toString();
 		}
-		return CompletableFuture.completedFuture(ok(views.html.index.render(output)));
-		
+		   return CompletableFuture.completedFuture(ok(views.html.index.render(query)));
 		
     }
 		

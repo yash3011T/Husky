@@ -7,15 +7,30 @@
         <form id="searchForm" actions="@routes.HomeController.index()" method="POST">
             <input id="phrase" name="query" type="text" placeholder="Keywords" value=" ">
            
-            <button type="submit" class="btn"> Go!</button>
+            <button id = "sbmt" type="submit" class="btn" onclick = "add()"> Go!</button>
+            
         </form>
-				
-	<div id="result"><p>@message</p></div>
+			
     </div>
-
+		<div id="dataContainer">
+			<div id = "dataSet" align="center">
+			<p><div id="result">@message</div></p>
+		
+			</div>
+		</div>
     <style>
         .results {
             max-height: 500px;
         }
     </style>
-}
+    <script>    	
+    	function add(e)
+    	{
+    		const container = document.getElementById("dataContainer");
+    		const section = document.getElementById("dataSet");
+    		container.appendChild(section.cloneNode(true));
+    		e.preventDefault();
+    	}
+    </script>
+ 
+   }
