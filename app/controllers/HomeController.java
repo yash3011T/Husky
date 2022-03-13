@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import play.api.libs.json.*;
 import play.mvc.Http.Request;
-
+import play.api.libs.json.*;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -31,6 +31,7 @@ public class HomeController extends Controller {
 	String finalQuery;
 	String suffix = "&compact=false&job_details=true";
 	ObjectMapper objmap = new ObjectMapper();
+
 	@Inject
 	FormFactory formFactory;
 	
@@ -44,20 +45,20 @@ public class HomeController extends Controller {
      */
 	public CompletionStage<Result> index() {
 		
-		
         return CompletableFuture.completedFuture(ok(views.html.index.render(owner_ids)));
-    }
 	
 	public CompletionStage<Result> Search(Http.Request request) {
-		
+
 		
 		final String query = formFactory.form().bindFromRequest(request).get("query");
 
 		StringBuilder sb = new StringBuilder();
 		String output = "";
-		String title = "old";
-		String place_id;
 		
+		final String query = formFactory.form().bindFromRequest(request).get("query");
+		
+		String output;
+
 		try {
 		URL url = new URL(base_url.concat(query.trim().replaceAll(" ", "")).concat(suffix));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -70,7 +71,8 @@ public class HomeController extends Controller {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 			(conn.getInputStream())));
-		
+
+		StringBuilder sb = new StringBuilder();
 		String line;
         while ((line = br.readLine()) != null) {
             sb.append(line + "\n");
@@ -93,10 +95,8 @@ public class HomeController extends Controller {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-
 		
 		return CompletableFuture.completedFuture(ok(views.html.index.render(owner_ids)));
-		
 		
     }
 		
