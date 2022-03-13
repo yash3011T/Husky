@@ -45,7 +45,9 @@ public class HomeController extends Controller {
      */
 	public CompletionStage<Result> index() {
 		
-        return CompletableFuture.completedFuture(ok(views.html.index.render(owner_ids)));
+        return CompletableFuture.completedFuture(ok(views.html.index.render(owner_ids," ")));
+        
+	}
 	
 	public CompletionStage<Result> Search(Http.Request request) {
 
@@ -55,10 +57,6 @@ public class HomeController extends Controller {
 		StringBuilder sb = new StringBuilder();
 		String output = "";
 		
-		final String query = formFactory.form().bindFromRequest(request).get("query");
-		
-		String output;
-
 		try {
 		URL url = new URL(base_url.concat(query.trim().replaceAll(" ", "")).concat(suffix));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -72,7 +70,6 @@ public class HomeController extends Controller {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 			(conn.getInputStream())));
 
-		StringBuilder sb = new StringBuilder();
 		String line;
         while ((line = br.readLine()) != null) {
             sb.append(line + "\n");
@@ -96,10 +93,12 @@ public class HomeController extends Controller {
 			e.printStackTrace();
 		}
 		
-		return CompletableFuture.completedFuture(ok(views.html.index.render(owner_ids)));
+		return CompletableFuture.completedFuture(ok(views.html.index.render(owner_ids,query)));
 		
     }
 		
 }
+	
+
 
 

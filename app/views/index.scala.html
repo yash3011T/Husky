@@ -1,4 +1,4 @@
-@(ids: ArrayList[String])
+@(ids: ArrayList[String] , message: String)
 
 @main("Welcome to Freelancelot") {
   <h1 align="center">Welcome to Freelancelot</h1>
@@ -6,14 +6,13 @@
   <div id="search" align="center">
   
         <form id="searchForm" actions="@routes.HomeController.index()" method="POST">
-
             <input id="phrase" name="query" type="text" placeholder="Enter Keywords" value="">
            	<input type="submit" value="Go!">
         </form>
 
 	<div id="dataContainer">
 			<div id = "dataSet" align="center">
-			<p><div id="result">Search Results for query</div></p>
+			<p><div id="result">Search Results for query @message</div></p>
 				
 			@for(id <- ids){
    				 @id <br>
@@ -22,20 +21,6 @@
 	</div>
 
 		
-            <input id="phrase" name="query" type="text" placeholder="Keywords" value=" ">
-           
-            <button id = "sbmt" type="submit" class="btn" onclick = "add()"> Go!</button>
-            
-        </form>
-			
-    </div>
-		<div id="dataContainer">
-			<div id = "dataSet" align="center">
-			<p><div id="result">@message</div></p>
-		
-			</div>
-		</div>
-
     <style>
         .results {
             max-height: 500px;
@@ -43,15 +28,4 @@
         
     </style>
 
-    <script>    	
-    	function add(e)
-    	{
-    		const container = document.getElementById("dataContainer");
-    		const section = document.getElementById("dataSet");
-    		container.appendChild(section.cloneNode(true));
-    		e.preventDefault();
-    	}
-    </script>
- 
-   }
-
+}
