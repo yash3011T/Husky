@@ -1,5 +1,4 @@
-@(ids: ArrayList[String] , message: String, title: ArrayList[String], types : ArrayList[String] ,skills: ArrayList[String],time_submitted: ArrayList[String])
-
+@( message: String, display: ArrayList[Display] )
 @main("Welcome to Freelancelot") {
   <h1 align="center">Welcome to Freelancelot</h1>
   
@@ -7,16 +6,23 @@
   
         <form id="searchForm" actions="@routes.HomeController.index()" method="POST">
             <input id="phrase" name="query" type="text" placeholder="Enter Keywords" value="">
-           	<input type="submit" value="Go!">
+           	<input type="submit" value="Go!" onclick = "add()" >
         </form>
 
-	<div id="dataContainer">
+	<div id="container">
 			<div id = "dataSet" align="center">
-			<p><div id="result">Search Results for query @message</div></p>
+			<p><div style="font-size:15px">Search Results for query @message</div></p>
 				
-			@for(id <- ids){
-   				 @id <br>
-			}
+				<table>
+				@for(dis <- display){
+					<tr>
+  					<td style="font-size:10px"> @dis.getOwner_id </td>
+  					<td style="font-size:10px"> @dis.getTitle </td>
+  					<td style="font-size:10px"> @dis.getType </td>
+  					<td style="font-size:10px"> @dis.getTime_submitted </td>
+					</tr>
+				}
+				</table>
 			</div>
 	</div>
 
@@ -26,6 +32,25 @@
             max-height: 500px;
         }
         
+        td {
+  			padding: 2px;
+  			text-align: left;
+		}
+ 
     </style>
+
+	<script>
+	
+		function add () {
+
+  			const container = document.getElementById("container");
+  			const section = document.getElementById("dataSet");
+  			var div = document.createElement('div');
+  			
+  			container.appendChild(div);
+  		}
+  			
+	
+	</script>
 
 }

@@ -31,15 +31,10 @@ public class HomeController extends Controller {
 	String finalQuery;
 	String suffix = "&compact=false&job_details=true";
 	ObjectMapper objmap = new ObjectMapper();
+	ArrayList<Display> displayList = new ArrayList<Display>();
 
 	@Inject
 	FormFactory formFactory;
-	
-	ArrayList<String> owner_ids = new ArrayList<String>();
-	ArrayList<String> title = new ArrayList<String>();
-	ArrayList<String> types = new ArrayList<String>();
-	ArrayList<String> time_submitted = new ArrayList<String>();
-	ArrayList<String> skills = new ArrayList<String>();
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -49,7 +44,7 @@ public class HomeController extends Controller {
      */
 	public CompletionStage<Result> index() {
 		
-        return CompletableFuture.completedFuture(ok(views.html.index.render(owner_ids," ",title,types,time_submitted,skills)));
+		return CompletableFuture.completedFuture(ok(views.html.index.render("",displayList)));
         
 	}
 	
@@ -57,7 +52,7 @@ public class HomeController extends Controller {
 
 		
 		final String query = formFactory.form().bindFromRequest(request).get("query");
-
+		
 		StringBuilder sb = new StringBuilder();
 		String output = "";
 		
@@ -85,14 +80,18 @@ public class HomeController extends Controller {
 		JsonNode jsonNode = objmap.readTree(sb.toString());
 		
 		int i = 0;
-		
+
 		while(i<jsonNode.get("result").get("projects").size() && i<10) {
 			
-			owner_ids.add(jsonNode.get("result").get("projects").get(i).get("owner_ids").asText());
-			title.add(jsonNode.get("result").get("projects").get(i).get("title").asText());
-			types.add(jsonNode.get("result").get("projects").get(i).get("type").asText());
-			skills.add(jsonNode.get("result").get("projects").get(i).get("skills").asText());
-			time_submitted.add(jsonNode.get("result").get("projects").get(i).get("time_submitted").asText());
+			Display display = new Display();
+			
+			display.setOwner_id(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("owner_id").asText()));
+			//display.setSkills(jsonNode.get("result").get("projects").get(i).get("skills").asText());
+			display.setTime_submitted(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("time_submitted").asText()));
+			display.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText());
+			display.setType(jsonNode.get("result").get("projects").get(i).get("type").asText());
+
+			displayList.add(display);
 			i++;
 		}
 		
@@ -101,7 +100,7 @@ public class HomeController extends Controller {
 			e.printStackTrace();
 		}
 		
-		return CompletableFuture.completedFuture(ok(views.html.index.render(owner_ids,query,title,types,skills,time_submitted)));
+		return CompletableFuture.completedFuture(ok(views.html.index.render(query, displayList)));
 		
     }
 		

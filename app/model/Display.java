@@ -1,11 +1,11 @@
 package model;
 
-public class DisplayDetails {
+public class Display {
 	long owner_id;
 	long time_submitted;
 	String title;
-	String type;
-	String skills;
+	String types;
+	//String skills;
 	
 	public long getOwner_id() {
 		return owner_id;
@@ -26,15 +26,16 @@ public class DisplayDetails {
 		this.title = title;
 	}
 	public String getType() {
-		return type;
+		return types;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setType(String types) {
+		this.types = types;
 	}
+	/*
 	public String getSkills() {
 		return skills;
 	}
 	public void setSkills(String skills) {
 		this.skills = skills;
-	}
+	}*/
 }
