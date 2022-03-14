@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import model.Flesch;
 import play.api.libs.json.*;
 import play.mvc.Http.Request;
 import play.api.libs.json.*;
@@ -32,6 +33,7 @@ public class HomeController extends Controller {
 	String suffix = "&compact=false&job_details=true";
 	ObjectMapper objmap = new ObjectMapper();
 	ArrayList<Display> displayList = new ArrayList<Display>();
+	Flesch flesch= new Flesch();
 
 	@Inject
 	FormFactory formFactory;
@@ -54,6 +56,8 @@ public class HomeController extends Controller {
 	}
 	
 	public CompletionStage<Result> Search(Http.Request request) {
+
+		int[] index = new int[100];
 
 		final String query = formFactory.form().bindFromRequest(request).get("query");
 		
@@ -82,7 +86,7 @@ public class HomeController extends Controller {
 		conn.disconnect();
 
 		JsonNode jsonNode = objmap.readTree(sb.toString());
-		
+	
 		int i = 0;
 
 		while(i<jsonNode.get("result").get("projects").size() && i<10) {
@@ -90,21 +94,30 @@ public class HomeController extends Controller {
 			Display display = new Display();
 				
 			display.setOwner_id(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("owner_id").asText()));
-			//display.setSkills(jsonNode.get("result").get("projects").get(i).get("skills").asText());
 			display.setTime_submitted(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("time_submitted").asText()));
 			display.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText());
 			display.setType(jsonNode.get("result").get("projects").get(i).get("type").asText());
 			display.setSkills(query);
 
+		    index[i] = flesch.Index(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
+			if(index[i] == 0) {
+			System.out.println("NULL");
+			}else {
+				System.out.println("NOT NULL");
+			}
 			displayList.add(display);
 			i++;
 			
 		}
+
+			
+			
 		
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 		
 		return CompletableFuture.completedFuture(ok(views.html.index.render(query, displayList)));
 		
