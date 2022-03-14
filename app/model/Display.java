@@ -5,7 +5,7 @@ public class Display {
 	long time_submitted;
 	String title;
 	String types;
-	//String skills;
+	String skills;
 	
 	public long getOwner_id() {
 		return owner_id;
@@ -31,11 +31,10 @@ public class Display {
 	public void setType(String types) {
 		this.types = types;
 	}
-	/*
 	public String getSkills() {
 		return skills;
 	}
 	public void setSkills(String skills) {
 		this.skills = skills;
-	}*/
+	}
 }

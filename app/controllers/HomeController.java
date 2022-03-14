@@ -48,16 +48,20 @@ public class HomeController extends Controller {
         
 	}
 	
+	public void clear_list() {
+		
+		displayList.clear();
+	}
+	
 	public CompletionStage<Result> Search(Http.Request request) {
 
-		
 		final String query = formFactory.form().bindFromRequest(request).get("query");
 		
 		StringBuilder sb = new StringBuilder();
 		String output = "";
 		
 		try {
-		URL url = new URL(base_url.concat(query.trim().replaceAll(" ", "")).concat(suffix));
+		URL url = new URL(base_url.concat(query.trim().replaceAll(" ", "%20")).concat(suffix));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("Accept", "application/json");
@@ -84,15 +88,17 @@ public class HomeController extends Controller {
 		while(i<jsonNode.get("result").get("projects").size() && i<10) {
 			
 			Display display = new Display();
-			
+				
 			display.setOwner_id(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("owner_id").asText()));
 			//display.setSkills(jsonNode.get("result").get("projects").get(i).get("skills").asText());
 			display.setTime_submitted(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("time_submitted").asText()));
 			display.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText());
 			display.setType(jsonNode.get("result").get("projects").get(i).get("type").asText());
+			display.setSkills(query);
 
 			displayList.add(display);
 			i++;
+			
 		}
 		
 		}
