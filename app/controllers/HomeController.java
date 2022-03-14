@@ -29,7 +29,7 @@ import play.api.libs.json.*;
 public class HomeController extends Controller {
 	
 	final String base_url="https://www.freelancer.com/api/projects/0.1/projects/active?query=";
-	String finalQuery;
+	String query = "empty";
 	String suffix = "&compact=false&job_details=true";
 	ObjectMapper objmap = new ObjectMapper();
 	ArrayList<Display> displayList = new ArrayList<Display>();
@@ -56,10 +56,14 @@ public class HomeController extends Controller {
 	}
 	
 	public CompletionStage<Result> Search(Http.Request request) {
+		
+		clear_list();
 
 		int[] index = new int[100];
 
-		final String query = formFactory.form().bindFromRequest(request).get("query");
+		query = formFactory.form().bindFromRequest(request).get("query");
+		
+		final String load = formFactory.form().bindFromRequest(request).get("reload");
 		
 		StringBuilder sb = new StringBuilder();
 		String output = "";
