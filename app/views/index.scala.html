@@ -6,20 +6,25 @@
   
         <form id="searchForm" actions="@routes.HomeController.index()" method="POST">
             <input id="phrase" name="query" type="text" placeholder="Enter Keywords" value="">
-           	<input type="submit" value="Go!" onclick = "add()" >
+           	<input type="submit" value="Go!" onclick = "add()" style="background-color:#008CBA ; color:white">
         </form>
 
 	<div id="container">
 			<div id = "dataSet" align="center">
-			<p><div style="font-size:15px">Search Results for query @message</div></p>
+			<p style="font-size:10px"><a href="#"> Global Stats </a> </p>
+			
+			<div id="search"><p>Search Results for query @message</p></div>
 				
 				<table>
 				@for(dis <- display){
 					<tr>
-  					<td style="font-size:10px"> @dis.getOwner_id </td>
-  					<td style="font-size:10px"> @dis.getTitle </td>
-  					<td style="font-size:10px"> @dis.getType </td>
-  					<td style="font-size:10px"> @dis.getTime_submitted </td>
+  					<td><a href="#"> @dis.getOwner_id </td>
+  					<td> @dis.getTime_submitted </td>
+  					<td> @dis.getTitle </td>
+  					<td> Type: @dis.getType </td>
+  					<td>Skills: <a href="#"> @dis.getSkills </td>
+  					<td><a href="#"> Stats </td>
+  					<td><a href="#"> Readability </td>
 					</tr>
 				}
 				</table>
@@ -35,6 +40,11 @@
         td {
   			padding: 2px;
   			text-align: left;
+  			font-size:10px;
+		}
+		
+		.search {
+			font-size:15px;
 		}
  
     </style>
