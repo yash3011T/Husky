@@ -17,7 +17,6 @@ import javax.inject.Inject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import model.Flesch;
 import play.api.libs.json.*;
 import play.mvc.Http.Request;
 import play.api.libs.json.*;
@@ -129,7 +128,7 @@ public class HomeController extends Controller {
 		}
 		
 		
-		return CompletableFuture.completedFuture(ok(views.html.index.render(base_url.concat(query.trim().replaceAll(" ", "%20")).concat(suffix), displayList)));
+		return CompletableFuture.completedFuture(ok(views.html.index.render(query, displayList)));
 		
     }
 		

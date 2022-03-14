@@ -4,9 +4,9 @@
   
   <div id="search" align="center">
   
-        <form id="searchForm" actions="@routes.HomeController.index()" method="POST" >
+        <form id="searchForm" actions="@routes.HomeController.index()" method="POST" onsubmit="add()" >
             <input id="phrase" name="query" type="text" placeholder="Enter Keywords" value="">
-           	<input type="submit" value="Go!" onclick="add()" style="background-color:#008CBA ; color:white">
+           	<input type="submit" value="Go!" style="background-color:#008CBA ; color:white">
         </form>
 
 	<p style="font-size:10px"><a href="#"> Global Stats </a> </p>
@@ -50,16 +50,13 @@
     </style>
 
 	<script>
-	
-		<! var form = document.getElementById("searchForm");
-		function handleForm(event) { event.preventDefault(); } 
-		form.addEventListener('submit', handleForm); !>
-		
+
 		function add () 
 		{
 
   			const container = document.getElementById("container");
   			const section = document.getElementById("dataSet");
+
   			container.appendChild(section.cloneNode(true));
   		}
   			
