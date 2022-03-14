@@ -101,7 +101,13 @@ public class HomeController extends Controller {
 			display.setTime_submitted(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("time_submitted").asText()));
 			display.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText());
 			display.setType(jsonNode.get("result").get("projects").get(i).get("type").asText());
-			display.setSkills(query);
+			
+			String skill[] = new String[3];
+			
+			skill[0] = jsonNode.get("result").get("projects").get(i).get("jobs").get(0).get("name").asText();
+			System.out.println(skill[0]);
+			
+			display.setSkills(skill);
 
 		    index[i] = flesch.Index(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
 			if(index[i] == 0) {
@@ -123,7 +129,7 @@ public class HomeController extends Controller {
 		}
 		
 		
-		return CompletableFuture.completedFuture(ok(views.html.index.render(query, displayList)));
+		return CompletableFuture.completedFuture(ok(views.html.index.render(base_url.concat(query.trim().replaceAll(" ", "%20")).concat(suffix), displayList)));
 		
     }
 		
