@@ -4,7 +4,7 @@
   
   <div id="search" align="center">
   
-        <form id="searchForm" actions="@routes.HomeController.index()" method="POST" onsubmit="add()" >
+        <form id="searchForm" actions="@routes.HomeController.index()" method="POST" >
             <input id="phrase" name="query" type="text" placeholder="Enter Keywords" value="">
            	<input type="submit" value="Go!" style="background-color:#008CBA ; color:white">
         </form>
@@ -18,7 +18,7 @@
 				<table>
 				@for(dis <- display){
 					<tr>
-  					<td><a href="#"> @dis.getOwner_id </td>
+  					<td><a href="http://localhost:9000/freelancelot/employer/@dis.getOwner_id"> @dis.getOwner_id </td>
   					<td> @dis.getTime_submitted </td>
   					<td> @dis.getTitle </td>
   					<td> Type: @dis.getType </td>
@@ -50,15 +50,6 @@
     </style>
 
 	<script>
-
-		function add () 
-		{
-
-  			const container = document.getElementById("container");
-  			const section = document.getElementById("dataSet");
-
-  			container.appendChild(section.cloneNode(true));
-  		}
   			
 	</script>
 
