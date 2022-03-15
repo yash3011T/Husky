@@ -1,0 +1,34 @@
+@(empl: Employer )
+@main("Welcome to Freelancelot") {
+  <h1 align="center">Employer Profile</h1>
+  
+
+	<div align=center>
+		<table>
+					<tr> Id: @empl.getOwner_id </tr><br>
+  					<tr> Username: @empl.getUsername</tr><br>
+  					<tr> Role: @empl.getRole </tr><br>
+  					<tr> Country: @empl.getCountry </tr><br>
+  					<tr> Time Zone: @empl.getTime_zone</tr><br>
+
+					
+		</table>
+	</div>
+
+		
+    <style>
+	
+		tr {
+  			padding: 2px;
+  			text-align: left;
+  			font-size:20px;
+		}
+		
+ 
+    </style>
+
+	<script>
+
+  			
+	</script>
+}
