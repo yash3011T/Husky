@@ -8,6 +8,7 @@ public class Display {
 	String skills[];
 	String description;
 	
+	
 	public long getOwner_id() {
 		return owner_id;
 	}

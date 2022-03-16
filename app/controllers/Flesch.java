@@ -33,6 +33,8 @@ public class Flesch
 			else if(prev == 'e'){
 				if(isPunct(curr) || isDelim(curr)){
 					num_Syllables--;
+				}else if(isEnd(curr)){
+					num_Syllables++;
 				}
 			}
 			else if(isAlpha(prev) && isDelim(curr)){
@@ -59,6 +61,13 @@ public class Flesch
 	
 	
 	
+		private boolean isEnd(char letter) {
+		String end = "sd";
+		return (end.indexOf(letter)!= -1);
+	}
+
+
+
 		public static boolean isVowel(char letter){
 			String vowels = "aeiouy";
 			return(vowels.indexOf(letter) != -1);

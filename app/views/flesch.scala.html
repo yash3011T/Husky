@@ -1,0 +1,14 @@
+@(message: String ,  title: String, setter: FleschSetter)
+
+@main("Welcome to Freelancelot") {
+
+	<h1 align="center">Readability for @message : @title</h1>
+
+  				     <p align=center	> Flesch Reading Ease Index: &nbsp  @setter.getFleshReadability  &nbsp </p>
+  				     <p align=center	> FGKL: &nbsp  @setter.getFleschKincade  &nbsp </p>
+	
+	<script>
+
+    </script>
+
+}

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import play.api.libs.json.*;
 import play.mvc.Http.Request;
+import play.api.libs.json.*;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -31,11 +32,14 @@ public class HomeController extends Controller {
 	String suffix = "&compact=false&job_details=true";
 	ObjectMapper objmap = new ObjectMapper();
 	ArrayList<Display> displayList = new ArrayList<Display>();
+	ArrayList<FleschSetter> setterList = new ArrayList<FleschSetter>();
 	Flesch flesch= new Flesch();
-	int FleschReadability = 0;
-	int FleschKincaid = 0;
-	int fleschAvg=0;
-	int kincadAvg=0;
+
+	double fleschAvg=0;
+	double kincadAvg=0;
+	double fleschSum=0;
+	double kincadSum=0;
+	
 	@Inject
 	FormFactory formFactory;
 
@@ -47,25 +51,19 @@ public class HomeController extends Controller {
      */
 	public CompletionStage<Result> index() {
 		
-		return CompletableFuture.completedFuture(ok(views.html.index.render("",FleschReadability,FleschKincaid,displayList)));
+		return CompletableFuture.completedFuture(ok(views.html.index.render("",fleschSum,kincadAvg,displayList)));
         
-	}
-	
-	public void clear_list() {
-		
-		displayList.clear();
 	}
 	
 	public CompletionStage<Result> Search(Http.Request request) {
 		
-		clear_list();
+		displayList.clear();
 		double[] values = new double[100];
 	
-
-
 		query = formFactory.form().bindFromRequest(request).get("query");
-
-
+		
+		final String load = formFactory.form().bindFromRequest(request).get("reload");
+		
 		StringBuilder sb = new StringBuilder();
 		String output = "";
 		
@@ -102,43 +100,135 @@ public class HomeController extends Controller {
 			display.setTime_submitted(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("time_submitted").asText()));
 			display.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText().replaceAll("/"," "));
 			display.setType(jsonNode.get("result").get("projects").get(i).get("type").asText());
-			display.setDescription(jsonNode.get("result").get("projects").get(i).get("preview_description").asText());
 			
 			String skill[] = new String[3];
 			
 			skill[0] = jsonNode.get("result").get("projects").get(i).get("jobs").get(0).get("name").asText();
+			System.out.println(skill[0]);
 			
 			display.setSkills(skill);
+			displayList.add(display);
+			
 			int c = 0;
 			values = flesch.Index(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
+			
+			FleschSetter setter = new FleschSetter();
+			
+			setter.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText());
+			
 			if(values[c] != Double.POSITIVE_INFINITY || values[c] != Double.NEGATIVE_INFINITY) {
-			FleschReadability=(int) values[0];
-			FleschKincaid=(int) values[1];
+				
+				setter.setFleshReadability(values[0]);
+				setter.setFleschKincade(values[1]);
+				
 			
 			}else {
-				FleschReadability = 0;
-				FleschKincaid=0;
+				setter.setFleshReadability(0);
+				setter.setFleschKincade(0);
 			}
-			displayList.add(display);
+			
+			
+			setterList.add(setter);
+			
 			i++;
 			
 		}
-
-			
-			
-		
 		}
+		
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 		
 		
-		return CompletableFuture.completedFuture(ok(views.html.index.render(query, FleschReadability,FleschKincaid, displayList)));
+		for(int j=0; j<setterList.size(); j++) {
+			
+			kincadSum = kincadSum + setterList.get(j).getFleschKincade();
+			fleschSum = fleschSum + setterList.get(j).getFleshReadability();
+
+		}
 		
-    }
+		fleschAvg = fleschSum/setterList.size();
+		kincadAvg = kincadSum/setterList.size();
+		
+		return CompletableFuture.completedFuture(ok(views.html.index.render(query, fleschAvg , kincadAvg , displayList)));
 		
 }
+
 	
+	public CompletionStage<Result> Flesch(String keyword, String title, Http.Request request) {
+		
+		setterList.clear();
+		double[] values = new double[100];
+		
+		StringBuilder sb = new StringBuilder();
+		String output = "";
+		
+		FleschSetter current = new FleschSetter();
+		
+		try {
+		URL url = new URL(base_url.concat(keyword.trim().replaceAll(" ", "%20")).concat(suffix));
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("Accept", "application/json");
 
+		if (conn.getResponseCode() != 200) {
+			output = "Failed";
+		}
 
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+			(conn.getInputStream())));
 
+		String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line + "\n");
+        }
+        br.close();
+
+		conn.disconnect();
+
+		JsonNode jsonNode = objmap.readTree(sb.toString());
+	
+		int i = 0;
+
+		while(i<jsonNode.get("result").get("projects").size() && i<250) {
+			
+			int c = 0;
+			values = flesch.Index(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
+			
+			FleschSetter setter = new FleschSetter();
+			
+			setter.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText());
+			
+			if(values[c] != Double.POSITIVE_INFINITY || values[c] != Double.NEGATIVE_INFINITY) {
+				
+				setter.setFleshReadability(values[0]);
+				setter.setFleschKincade(values[1]);
+				
+			
+			}else {
+				setter.setFleshReadability(0);
+				setter.setFleschKincade(0);
+			}
+			
+			setterList.add(setter);
+			
+
+			if(jsonNode.get("result").get("projects").get(i).get("title").asText().replaceAll("/"," ").replaceAll("\\s+","").equals(title.replaceAll("\\s+",""))) { 
+				current = setter;
+			}
+			
+			i++;
+			
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return CompletableFuture.completedFuture(ok(views.html.flesch.render(keyword,title,current)));
+	}
+	
+}
+		
+
+	

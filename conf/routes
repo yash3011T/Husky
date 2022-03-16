@@ -8,6 +8,7 @@ GET     /freelancelot              			controllers.HomeController.index()
 POST    /freelancelot			   			controllers.HomeController.Search(request: Request)
 GET 	/freelancelot/employer/:id 			controllers.EmployerProfile.employer(id: Long ,request: Request)
 GET 	/freelancelot/stats/:message/:current 		controllers.WordStat.stats(message: String, current: String, request: Request)
+GET 	/freelancelot/readability/:message/:title 		controllers.HomeController.Flesch(message: String, title: String, request: Request)
 
 
 
