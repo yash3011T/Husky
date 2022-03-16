@@ -1,18 +1,20 @@
-package models;
+package controllers;
 
 import java.io.IOException;
 import java.lang.*;
 import java.util.Scanner;
 
 public class Flesch
-{ 
-	public int Index(String url) throws IOException {  
-	  int num_Syllables = 0;
-		int num_Words = 0;
-		int num_Sentences = 0;
-		int index = 0;
-	  int ch;
-	char prev = '~';
+{
+	int num_Syllables = 0;
+	int num_Words = 0;
+	int num_Sentences = 0;
+	int index = 0;
+    int ch;
+    char prev = '~';
+    double double_array[] = new double[100];
+	public double[] Index(String url) throws IOException {  
+	  
 	boolean syllFound = false;
 	for (int i=0;i<url.length();i++){
 		char curr =  url.charAt(i);
@@ -46,16 +48,17 @@ public class Flesch
 		/* System.out.println("Words: " + num_Words);
 		System.out.println("Syllables: " + num_Syllables);
 		System.out.println("Sentences: " + num_Sentences);*/
+		int c=0;
 
-		double flesch = computeFlesch(num_Syllables, num_Words, num_Sentences);
-		double fleschKincaid = computeFleschKincaid(num_Syllables, num_Words, num_Sentences);
-		
-		
-		System.out.println("Flesch: " + String.format("%.0f",flesch));
-		System.out.println("Flesch-Kincaid: " + String.format("%.1f",fleschKincaid));
-		return (int) flesch;
+		double_array[c]=computeFlesch(num_Syllables, num_Words, num_Sentences);
+		double_array[c+1]=computeFleschKincaid(num_Syllables, num_Words, num_Sentences);
+		System.out.println("Flesch: " + String.format("%.0f",double_array[c]));
+		System.out.println("Flesch-Kincaid: " + String.format("%.1f",double_array[c+1]));
+		return double_array;
 		}
-
+	
+	
+	
 		public static boolean isVowel(char letter){
 			String vowels = "aeiouy";
 			return(vowels.indexOf(letter) != -1);

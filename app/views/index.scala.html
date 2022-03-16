@@ -1,4 +1,4 @@
-@( message: String, display: ArrayList[Display] )
+@( message: String, FleschR: Integer, FleschK: Integer ,display: ArrayList[Display] )
 @main("Welcome to Freelancelot") {
   <h1 align="center">Welcome to Freelancelot</h1>
   
@@ -13,7 +13,7 @@
 	<div id="container">
 			<div id = "dataSet" align="center">
 			
-			<div id="search"><p>Search Results for query @message</p></div>
+			<div id="search"><p>Search Results for query @message : Flesh Reading Ease Index: @FleschR FGKL: @FleschK </p></div>
 					
 				<table>
 				@for(dis <- display){
@@ -24,7 +24,7 @@
   					<td> Type: @dis.getType </td>
   					<td>Skills: <a href="#"> @dis.getSkills </td>
   					<td><a href="#"> Stats </td>
-  					<td><a href="#"> Readability </td>
+  					<td><a href="#"> Readability: </td>
 					</tr>
 				}
 				</table>

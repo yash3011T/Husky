@@ -33,7 +33,10 @@ public class HomeController extends Controller {
 	ObjectMapper objmap = new ObjectMapper();
 	ArrayList<Display> displayList = new ArrayList<Display>();
 	Flesch flesch= new Flesch();
-
+	int FleschReadability = 0;
+	int FleschKincaid = 0;
+	int fleschAvg=0;
+	int kincadAvg=0;
 	@Inject
 	FormFactory formFactory;
 
@@ -45,7 +48,7 @@ public class HomeController extends Controller {
      */
 	public CompletionStage<Result> index() {
 		
-		return CompletableFuture.completedFuture(ok(views.html.index.render("",displayList)));
+		return CompletableFuture.completedFuture(ok(views.html.index.render("",FleschReadability,FleschKincaid,displayList)));
         
 	}
 	
@@ -57,8 +60,8 @@ public class HomeController extends Controller {
 	public CompletionStage<Result> Search(Http.Request request) {
 		
 		clear_list();
-
-		int[] index = new int[100];
+		double[] values = new double[100];
+	
 
 		query = formFactory.form().bindFromRequest(request).get("query");
 		
@@ -107,12 +110,15 @@ public class HomeController extends Controller {
 			System.out.println(skill[0]);
 			
 			display.setSkills(skill);
-
-		    index[i] = flesch.Index(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
-			if(index[i] == 0) {
-			System.out.println("NULL");
+			int c = 0;
+			values = flesch.Index(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
+			if(values[c] != Double.POSITIVE_INFINITY || values[c] != Double.NEGATIVE_INFINITY) {
+			FleschReadability=(int) values[0];
+			FleschKincaid=(int) values[1];
+			
 			}else {
-				System.out.println("NOT NULL");
+				FleschReadability = 0;
+				FleschKincaid=0;
 			}
 			displayList.add(display);
 			i++;
@@ -128,7 +134,7 @@ public class HomeController extends Controller {
 		}
 		
 		
-		return CompletableFuture.completedFuture(ok(views.html.index.render(query, displayList)));
+		return CompletableFuture.completedFuture(ok(views.html.index.render(query, FleschReadability,FleschKincaid, displayList)));
 		
     }
 		
