@@ -163,6 +163,10 @@ public class HomeController extends Controller {
 		StringBuilder sb = new StringBuilder();
 		String output = "";
 		
+		if(title.equals("user")) {
+			title = "";
+		}
+		
 		FleschSetter current = new FleschSetter();
 		
 		try {
@@ -209,8 +213,6 @@ public class HomeController extends Controller {
 				setter.setFleshReadability(0);
 				setter.setFleschKincade(0);
 			}
-			
-			setterList.add(setter);
 			
 
 			if(jsonNode.get("result").get("projects").get(i).get("title").asText().replaceAll("/"," ").replaceAll("\\s+","").equals(title.replaceAll("\\s+",""))) { 

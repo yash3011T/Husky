@@ -54,6 +54,13 @@ public class WordStat extends Controller{
 		query = keyword;
 		
 		
+		if(title.equals("user")) {
+			query = "";
+		}
+		
+		System.out.println(base_url.concat(query.trim().replaceAll(" ", "%20")).concat(suffix));
+		
+		
 		try {
 		URL url = new URL(base_url.concat(query.trim().replaceAll(" ", "%20")).concat(suffix));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
