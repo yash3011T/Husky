@@ -75,6 +75,63 @@ public class EmployerProfile extends Controller{
 			e.printStackTrace();
 		}
 		
+		try {
+			
+			URL url = new URL(base_url.concat(project_url).concat(String.valueOf(id).concat(suffix)));
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Accept", "application/json");
+			
+			System.out.println(base_url.concat(project_url).concat(String.valueOf(id).concat(suffix)));
+
+			if (conn.getResponseCode() != 200) {
+				output = "Failed";
+			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+				(conn.getInputStream())));
+
+			String line;
+	        while ((line = br.readLine()) != null) {
+	            sb2.append(line + "\n");
+	        }
+	        br.close();
+
+			conn.disconnect();
+			
+			JsonNode jsonNode = objmap.readTree(sb2.toString());
+			
+			int i = 0;
+			
+			while(i<10 && i<jsonNode.get("result").get("projects").size()) {	
+				
+				if(jsonNode.get("result").get("projects").get(i).get("status").asText().equals("active")) {
+			
+				Display display = new Display();
+					
+				display.setOwner_id(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("owner_id").asText()));
+				display.setTime_submitted(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("time_submitted").asText()));
+				display.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText());
+				display.setType(jsonNode.get("result").get("projects").get(i).get("type").asText());
+				
+				String skill[] = new String[3];
+				
+				skill[0] = jsonNode.get("result").get("projects").get(i).get("jobs").get(0).get("name").asText();
+				
+				display.setSkills(skill);
+				
+				displayList.add(display);
+				}
+			
+				i++;
+				
+			}
+			
+		}
+		
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		return CompletableFuture.completedFuture(ok(views.html.user.render(empl,displayList)));
 	
