@@ -25,7 +25,7 @@ public class EmployerProfile extends Controller{
 	ObjectMapper objmap = new ObjectMapper();
 	Employer empl = new Employer();
 
-	public CompletionStage<Result> employer(long id, Http.Request request) {
+	public CompletionStage<Result> employer(String query, long id, Http.Request request) {
 		
 		final String base_url="https://www.freelancer.com/api/";
 		final String user_url="users/0.1/users/";
@@ -133,7 +133,7 @@ public class EmployerProfile extends Controller{
 			e.printStackTrace();
 		}
 		
-		return CompletableFuture.completedFuture(ok(views.html.user.render(empl,displayList)));
+		return CompletableFuture.completedFuture(ok(views.html.user.render(query,empl,displayList)));
 	
 }
 
