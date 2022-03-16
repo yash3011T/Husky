@@ -29,7 +29,7 @@ public class EmployerProfile extends Controller{
 		
 		final String base_url="https://www.freelancer.com/api/";
 		final String user_url="users/0.1/users/";
-		final String project_url="projects/0.1/projects/active?owners[]=";
+		final String project_url="projects/0.1/projects/?owners[]=";
 		String suffix = "&compact=false&job_details=true";
 		
 		ArrayList<Display> displayList = new ArrayList<Display>();
@@ -104,6 +104,8 @@ public class EmployerProfile extends Controller{
 			int i = 0;
 			
 			while(i<10 && i<jsonNode.get("result").get("projects").size()) {	
+				
+				if(jsonNode.get("result").get("projects").get(i).get("status").asText().equals("active")) {
 			
 				Display display = new Display();
 					
@@ -119,6 +121,7 @@ public class EmployerProfile extends Controller{
 				display.setSkills(skill);
 				
 				displayList.add(display);
+				}
 			
 				i++;
 				

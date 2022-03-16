@@ -86,7 +86,6 @@ public class WordStat extends Controller{
 			if(title.equals("global")) {
 
 				statistics = statistics.concat(" ").concat(jsonNode.get("result").get("projects").get(i).get("preview_description").asText().replaceAll("\\s{2,}", " "));
-				title = "Global Stats";
 			}
 			
 			else {
@@ -98,6 +97,10 @@ public class WordStat extends Controller{
 			}
 			i++;
 		}
+		
+		title = "Global Stats";
+		
+		System.out.println(statistics);
 		
 		List<String> words = Arrays.asList(statistics.split(" "));
 		
@@ -136,9 +139,7 @@ public class WordStat extends Controller{
                 statsList.add(stat);
 				}
 
-			}
-			
-			//countByWordSorted.clear();		
+			}	
 		}
 		
 		catch(Exception e) {
