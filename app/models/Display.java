@@ -6,6 +6,7 @@ public class Display {
 	String title;
 	String type;
 	String skills[];
+	String description;
 	
 	public long getOwner_id() {
 		return owner_id;
@@ -34,11 +35,19 @@ public class Display {
 	public void setType(String type) {
 		this.type = type;
 	}
+	
 	public String[] getSkills() {
 		return skills;
 	}
 	public void setSkills(String skills[]) {
 		this.skills = skills;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }

@@ -9,13 +9,15 @@
            	<input type="submit" value="Go!" style="background-color:#008CBA ; color:white">
         </form>
 
-	<p style="font-size:10px"><a href="#"> Global Stats </a> </p>
 	<div id="container">
 			<div id = "dataSet" align="center">
 			
 			<div id="search"><p>Search Results for query @message : Flesh Reading Ease Index: @FleschR FGKL: @FleschK </p></div>
-					
-				<table>
+
+				<p style="font-size:15px"><a href="http://localhost:9000/freelancelot/stats/@message/global"> Global Stats </a> </p>
+				<div id="search"><p>Search Results for query @message</p></div>
+				
+				<table align=center>
 				@for(dis <- display){
 					<tr>
   					<td><a href="http://localhost:9000/freelancelot/employer/@dis.getOwner_id"> @dis.getOwner_id </td>
@@ -25,6 +27,13 @@
   					<td>Skills: <a href="#"> @dis.getSkills </td>
   					<td><a href="#"> Stats </td>
   					<td><a href="#"> Readability: </td>
+  					<td>  &nbsp <a href="http://localhost:9000/freelancelot/employer/@dis.getOwner_id">  @dis.getOwner_id  </a> &nbsp  </td>
+  					<td>  &nbsp  @dis.getTime_submitted  &nbsp  </td>
+  					<td>  &nbsp  @dis.getTitle  &nbsp  </td>
+  					<td>  &nbsp  Type: @dis.getType  &nbsp  </td>
+  					<td>  &nbsp Skills: <a href="#"> @dis.getSkills  &nbsp  </td>
+  					<td> &nbsp <a href="http://localhost:9000/freelancelot/stats/@message/@dis.getTitle">  Stats  </a> &nbsp  </td>
+  					<td>  &nbsp <a href="#">  Readability  </a> &nbsp  </td>
 					</tr>
 				}
 				</table>
@@ -40,11 +49,12 @@
         td {
   			padding: 2px;
   			text-align: left;
-  			font-size:10px;
+  			font-size:15px;
 		}
 		
 		.search {
-			font-size:15px;
+			font-size:20px;
+			text-align: left;
 		}
  
     </style>

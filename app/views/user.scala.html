@@ -1,4 +1,4 @@
-@(empl: Employer )
+@(empl: Employer, display: ArrayList[Display] )
 @main("Welcome to Freelancelot") {
   <h1 align="center">Employer Profile</h1>
   
@@ -14,6 +14,25 @@
 					
 		</table>
 	</div>
+	
+	
+	<div>
+				<br>
+				<br>
+				<table align=center>
+				@for(dis <- display){
+					<tr>
+  					<td>  &nbsp <a href="http://localhost:9000/freelancelot/employer/@dis.getOwner_id">  @dis.getOwner_id  </a> &nbsp  </td>
+  					<td>  &nbsp  @dis.getTime_submitted  &nbsp  </td>
+  					<td>  &nbsp  @dis.getTitle  &nbsp  </td>
+  					<td>  &nbsp  Type: @dis.getType  &nbsp  </td>
+  					<td>  &nbsp Skills: <a href="#"> @dis.getSkills  &nbsp  </td>
+  					<td> &nbsp  <a href="http://localhost:9000/freelancelot/stats/@dis.getTitle">  Stats  </a> &nbsp  </td>
+  					<td>  &nbsp <a href="#">  Readability  </a> &nbsp  </td>
+					</tr>
+				}
+				</table>
+	</div>
 
 		
     <style>
@@ -21,7 +40,7 @@
 		tr {
   			padding: 2px;
   			text-align: left;
-  			font-size:20px;
+  			font-size:15px;
 		}
 		
  

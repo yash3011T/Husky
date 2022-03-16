@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import play.api.libs.json.*;
 import play.mvc.Http.Request;
-import play.api.libs.json.*;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -63,10 +62,10 @@ public class HomeController extends Controller {
 		double[] values = new double[100];
 	
 
+
 		query = formFactory.form().bindFromRequest(request).get("query");
-		
-		final String load = formFactory.form().bindFromRequest(request).get("reload");
-		
+
+
 		StringBuilder sb = new StringBuilder();
 		String output = "";
 		
@@ -101,13 +100,13 @@ public class HomeController extends Controller {
 				
 			display.setOwner_id(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("owner_id").asText()));
 			display.setTime_submitted(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("time_submitted").asText()));
-			display.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText());
+			display.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText().replaceAll("/"," "));
 			display.setType(jsonNode.get("result").get("projects").get(i).get("type").asText());
+			display.setDescription(jsonNode.get("result").get("projects").get(i).get("preview_description").asText());
 			
 			String skill[] = new String[3];
 			
 			skill[0] = jsonNode.get("result").get("projects").get(i).get("jobs").get(0).get("name").asText();
-			System.out.println(skill[0]);
 			
 			display.setSkills(skill);
 			int c = 0;
