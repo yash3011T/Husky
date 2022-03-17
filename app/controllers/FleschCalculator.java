@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public class FleschOther {
+public class FleschCalculator {
 	
 	public static double[]  calculateScore(String textToScore) {
 		
