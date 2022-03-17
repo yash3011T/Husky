@@ -33,7 +33,7 @@ public class HomeController extends Controller {
 	ObjectMapper objmap = new ObjectMapper();
 	ArrayList<Display> displayList = new ArrayList<Display>();
 	ArrayList<FleschSetter> setterList = new ArrayList<FleschSetter>();
-	Flesch flesch= new Flesch();
+	FleschOther flesch= new FleschOther();
 
 	double fleschAvg=0;
 	double kincadAvg=0;
@@ -107,7 +107,7 @@ public class HomeController extends Controller {
 			displayList.add(display);
 			
 			int c = 0;
-			values = flesch.Index(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
+			values = flesch.calculateScore(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
 			
 			FleschSetter setter = new FleschSetter();
 			
@@ -190,7 +190,7 @@ public class HomeController extends Controller {
 		while(i<jsonNode.get("result").get("projects").size() && i<250) {
 			
 			int c = 0;
-			values = flesch.Index(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
+			values = flesch.calculateScore(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
 			
 			FleschSetter setter = new FleschSetter();
 			
@@ -263,7 +263,7 @@ public CompletionStage<Result> FleschID(long id, String title, Http.Request requ
 		while(i<jsonNode.get("result").get("projects").size() && i<250) {
 			
 			int c = 0;
-			values = flesch.Index(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
+			values = flesch.calculateScore(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
 			
 			FleschSetter setter = new FleschSetter();
 			

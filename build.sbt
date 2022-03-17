@@ -17,4 +17,5 @@ libraryDependencies ++= Seq(
   ehcache
 )
 
+
 EclipseKeys.preTasks := Seq(compile in Compile, compile in Test)

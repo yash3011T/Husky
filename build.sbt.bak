@@ -9,6 +9,12 @@ scalaVersion := "2.13.8"
 
 libraryDependencies += guice
 
-libraryDependencies += ws
+libraryDependencies ++= Seq(
+  javaWs
+)
+
+libraryDependencies ++= Seq(
+  ehcache
+)
 
 EclipseKeys.preTasks := Seq(compile in Compile, compile in Test)
