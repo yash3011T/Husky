@@ -1,0 +1,43 @@
+@( message: String, id: Long, display: ArrayList[Display] )
+@main("Welcome to Freelancelot") {
+  <h1 align="center">Result for selected skill : @message</h1>
+  
+  <div id="search" align="center">
+			<div id = "dataSet" align="center">
+			
+				<table>
+				@for(dis <- display){
+					<tr>
+  					<td><a href="http://localhost:9000/freelancelot/employer/@dis.getOwner_id"> @dis.getOwner_id </td>
+  					<td> @dis.getTime_submitted </td>
+  					<td> @dis.getTitle </td>
+  					<td> Type: @dis.getType </td>
+  					<td>  &nbsp Skills: <a href="http://localhost:9000/freelancelot/@message/skill/@dis.getSkill_id"> @dis.getSkills  &nbsp  </td>
+  					<td> &nbsp  <a href="http://localhost:9000/freelancelot/stats/user/@dis.getOwner_id/@dis.getTitle">  Stats  </a> &nbsp  </td>
+  					<td>  &nbsp <a href="http://localhost:9000/freelancelot/readability/user/@dis.getOwner_id/@dis.getTitle">  Readability  </a> &nbsp  </td>
+					</tr>
+				}
+				</table>
+			</div>
+	</div>
+
+		
+    <style>
+        .results {
+            max-height: 500px;
+        }
+        
+        td {
+  			padding: 2px;
+  			text-align: left;
+  			font-size:15px;
+		}
+
+ 
+    </style>
+
+	<script>
+  			
+	</script>
+
+}

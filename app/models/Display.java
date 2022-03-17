@@ -5,7 +5,8 @@ public class Display {
 	long time_submitted;
 	String title;
 	String type;
-	String skills[];
+	String skills;
+	long skill_id;
 	String description;
 	
 	
@@ -23,6 +24,14 @@ public class Display {
 		this.title = title;
 	}	
 	
+
+	public long getSkill_id() {
+		return skill_id;
+	}
+	public void setSkill_id(long skill_id) {
+		this.skill_id = skill_id;
+	}
+	
 	public long getTime_submitted() {
 		return time_submitted;
 	}
@@ -37,10 +46,10 @@ public class Display {
 		this.type = type;
 	}
 	
-	public String[] getSkills() {
+	public String getSkills() {
 		return skills;
 	}
-	public void setSkills(String skills[]) {
+	public void setSkills(String skills) {
 		this.skills = skills;
 	}
 	
