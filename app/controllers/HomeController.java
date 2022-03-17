@@ -3,6 +3,7 @@ package controllers;
 import play.mvc.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import views.html.*;
@@ -37,8 +38,6 @@ public class HomeController extends Controller {
 
 	double fleschAvg=0;
 	double kincadAvg=0;
-	double fleschSum=0;
-	double kincadSum=0;
 	
 	@Inject
 	FormFactory formFactory;
@@ -51,7 +50,7 @@ public class HomeController extends Controller {
      */
 	public CompletionStage<Result> index() {
 		
-		return CompletableFuture.completedFuture(ok(views.html.index.render("",fleschSum,kincadAvg,displayList)));
+		return CompletableFuture.completedFuture(ok(views.html.index.render("",fleschAvg,kincadAvg,displayList)));
         
 	}
 	
@@ -136,20 +135,29 @@ public class HomeController extends Controller {
 			e.printStackTrace();
 		}
 		
+		List <Double> kincadSum = new ArrayList <Double>();
+		List <Double> fleschSum = new ArrayList <Double>();
 		
 		for(int j=0; j<setterList.size(); j++) {
 			
-			kincadSum = kincadSum + setterList.get(j).getFleschKincade();
-			fleschSum = fleschSum + setterList.get(j).getFleshReadability();
+			kincadSum.add(setterList.get(j).getFleschKincade());
+			fleschSum.add(setterList.get(j).getFleshReadability());
 
-		}
+		}		
 		
-		fleschAvg = fleschSum/setterList.size();
-		kincadAvg = kincadSum/setterList.size();
+		fleschAvg = calculateAverage(fleschSum);
+		kincadAvg = calculateAverage(kincadSum);
 		
 		return CompletableFuture.completedFuture(ok(views.html.index.render(query, fleschAvg , kincadAvg , displayList)));
 		
 }
+
+	private double calculateAverage(List <Double> score) {
+	    return score.stream()
+	                .mapToDouble(d -> d)
+	                .average()
+	                .orElse(0.0);
+	}
 
 	
 	public CompletionStage<Result> Flesch(String keyword, String title, Http.Request request) {

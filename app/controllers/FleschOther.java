@@ -1,43 +1,69 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class FleschOther {
 	
 	public static double[]  calculateScore(String textToScore) {
+		
     double nsentences = 0.0;
     double nwords = 0.0;
     double nsyllables = 0.0;
     double double_array[] = new double[100];
+    
+    List <String> sentences = new ArrayList<String>();
+    List <String> words = new ArrayList<String>();
+    
 
     if (textToScore != null) {
-        String[] sentences = textToScore.split("\\.");
-        String[] words;
-
-        for (int i = 0; i < sentences.length; i++) {
-            words = sentences[i].split("\\s+");
-            nsentences++;
-            for (int j = 0; j < words.length; j++) {
-            	nwords++;
-            	nsyllables += countSyllables(words[j]);
-            }
-        }
+    	
+    	sentences = splitSentences(textToScore);
+    	
+    	for (int i = 0; i < sentences.size(); i++) {
+        	nsentences += 1;
+    	
+        	words = splitWord(sentences.get(i));
+        	
+        	for (int j = 0; j < words.size(); j++) {
+        		
+        		nwords += 1;
+            	nsyllables += countSyllables(words.get(j));
+         	}
+    	}
 
         if (nsentences > 0 && nwords > 0 && nsyllables > 0) {
-        	int c=0;
 
-    		double_array[c+1]=(0.39 * (nwords / nsentences)) + (11.8 * (nsyllables / nwords)) - 15.59;
-    		double_array[c]=206.835 - (84.6*(nsyllables / nwords)) - (1.015*nwords / nsentences);
+    		double_array[1]=(0.39 * (nwords / nsentences)) + (11.8 * (nsyllables / nwords)) - 15.59;
+    		double_array[0]=206.835 - (84.6*(nsyllables / nwords)) - (1.015*nwords / nsentences);
          
         }
-    }
 
+    }
+    
     return double_array;
 }
 
+	
+	public static List<String> splitSentences(String str){
+	    return Stream.of(str.split("\\."))
+	      .map (elem -> new String(elem))
+	      .collect(Collectors.toList());
+	}
+	
+	public static List<String> splitWord(String str){
+	    return Stream.of(str.split("\\s+"))
+	      .map (elem -> new String(elem))
+	      .collect(Collectors.toList());
+	}
+	
+	
+	
 /**
  * Method counting the number of syllables
  * 
