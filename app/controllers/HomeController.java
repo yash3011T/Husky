@@ -27,7 +27,7 @@ import play.api.libs.json.*;
  */
 public class HomeController extends Controller {
 	
-	final String base_url="https://www.freelancer.com/api/projects/0.1/projects/active?query=";
+	final String base_url="https://www.freelancer.com/api/projects/0.1/projects/";
 	String query = "empty";
 	String suffix = "&compact=false&job_details=true";
 	ObjectMapper objmap = new ObjectMapper();
@@ -68,7 +68,7 @@ public class HomeController extends Controller {
 		String output = "";
 		
 		try {
-		URL url = new URL(base_url.concat(query.trim().replaceAll(" ", "%20")).concat(suffix));
+		URL url = new URL(base_url.concat("active?query=").concat(query.trim().replaceAll(" ", "%20")).concat(suffix));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("Accept", "application/json");
@@ -163,14 +163,10 @@ public class HomeController extends Controller {
 		StringBuilder sb = new StringBuilder();
 		String output = "";
 		
-		if(title.equals("user")) {
-			title = "";
-		}
-		
 		FleschSetter current = new FleschSetter();
 		
 		try {
-		URL url = new URL(base_url.concat(keyword.trim().replaceAll(" ", "%20")).concat(suffix));
+		URL url = new URL(base_url.concat("active?query=").concat(keyword.trim().replaceAll(" ", "%20")).concat(suffix));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("Accept", "application/json");
@@ -228,6 +224,79 @@ public class HomeController extends Controller {
 		}
 
 		return CompletableFuture.completedFuture(ok(views.html.flesch.render(keyword,title,current)));
+	}
+	
+public CompletionStage<Result> FleschID(long id, String title, Http.Request request) {
+		
+		setterList.clear();
+		double[] values = new double[100];
+		
+		StringBuilder sb = new StringBuilder();
+		String output = "";
+		
+		FleschSetter current = new FleschSetter();
+		
+		try {
+		URL url = new URL(base_url.concat("?owners[]=").concat(String.valueOf(id)).concat(suffix));
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("Accept", "application/json");
+		
+		System.out.println(base_url.concat("?owners[]=").concat(String.valueOf(id)).concat(suffix));
+
+		if (conn.getResponseCode() != 200) {
+			output = "Failed";
+		}
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+			(conn.getInputStream())));
+
+		String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line + "\n");
+        }
+        br.close();
+
+		conn.disconnect();
+
+		JsonNode jsonNode = objmap.readTree(sb.toString());
+	
+		int i = 0;
+
+		while(i<jsonNode.get("result").get("projects").size() && i<250) {
+			
+			int c = 0;
+			values = flesch.Index(jsonNode.get("result").get("projects").get(i).get("preview_description").asText()); 
+			
+			FleschSetter setter = new FleschSetter();
+			
+			setter.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText());
+			
+			if(values[c] != Double.POSITIVE_INFINITY || values[c] != Double.NEGATIVE_INFINITY) {
+				
+				setter.setFleshReadability(values[0]);
+				setter.setFleschKincade(values[1]);
+				
+			
+			}else {
+				setter.setFleshReadability(0);
+				setter.setFleschKincade(0);
+			}
+			
+
+			if(jsonNode.get("result").get("projects").get(i).get("title").asText().replaceAll("/"," ").replaceAll("\\s+","").equals(title.replaceAll("\\s+",""))) { 
+				current = setter;
+			}
+			
+			i++;
+			
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return CompletableFuture.completedFuture(ok(views.html.flesch.render(String.valueOf(id),title,current)));
 	}
 	
 }

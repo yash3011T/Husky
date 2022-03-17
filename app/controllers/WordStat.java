@@ -30,7 +30,7 @@ import static java.util.stream.Collectors.toList;
 
 public class WordStat extends Controller{
 	
-	final String base_url="https://www.freelancer.com/api/projects/0.1/projects/active?query=";
+	final String base_url="https://www.freelancer.com/api/projects/0.1/projects/";
 	String query = "empty";
 	String statistics = "empty";
 	String suffix = "&compact=false&job_details=true";
@@ -53,16 +53,11 @@ public class WordStat extends Controller{
 		String output = "";
 		query = keyword;
 		
-		
-		if(title.equals("user")) {
-			query = "";
-		}
-		
 		System.out.println(base_url.concat(query.trim().replaceAll(" ", "%20")).concat(suffix));
 		
 		
 		try {
-		URL url = new URL(base_url.concat(query.trim().replaceAll(" ", "%20")).concat(suffix));
+		URL url = new URL(base_url.concat("active?query=").concat(query.trim().replaceAll(" ", "%20")).concat(suffix));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("Accept", "application/json");
@@ -158,4 +153,112 @@ public class WordStat extends Controller{
 		return CompletableFuture.completedFuture(ok(views.html.stats.render(query,title,statsList)));
 			
 }
+	
+	public CompletionStage<Result> statsID(long id, String title, Http.Request request) {
+		
+		clear_list();
+		statistics = " ";
+		
+		StringBuilder sb = new StringBuilder();
+		String output = "";
+		
+		try {
+		URL url = new URL(base_url.concat("?owners[]=").concat(String.valueOf(id)).concat(suffix));
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("Accept", "application/json");
+
+		if (conn.getResponseCode() != 200) {
+			output = "Failed";
+		}
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+			(conn.getInputStream())));
+
+		String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line + "\n");
+        }
+        br.close();
+
+		conn.disconnect();
+
+		JsonNode jsonNode = objmap.readTree(sb.toString());
+		
+		System.out.println(title);
+		
+		int i = 0;
+		
+		while(i<jsonNode.get("result").get("projects").size()) {
+			
+			if(title.equals("global")) {
+
+				statistics = statistics.concat(" ").concat(jsonNode.get("result").get("projects").get(i).get("preview_description").asText().replaceAll("\\s{2,}", " "));
+			}
+			
+			else {
+				
+				if(jsonNode.get("result").get("projects").get(i).get("title").asText().replaceAll("/"," ").replaceAll("\\s+","").equals(title.replaceAll("\\s+",""))) {
+					statistics = statistics.concat(" ").concat(jsonNode.get("result").get("projects").get(i).get("preview_description").asText().replaceAll("\\s{2,}", " "));
+					
+				}
+			}
+			i++;
+		}
+		
+		title = "Global Stats";
+		
+		System.out.println(statistics);
+		
+		List<String> words = Arrays.asList(statistics.split(" "));
+		
+		System.out.println("UNIQUE WORDS  " + words.size());
+		System.out.println("______________________________");
+		
+		
+		Map<String,Long> collect = words.stream()
+			    .collect( Collectors.groupingBy( Function.identity(), Collectors.counting() ));
+		
+		LinkedHashMap<String, Long> countByWordSorted = collect.entrySet()
+	            .stream()
+	            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+	            .collect(Collectors.toMap(
+	                    Map.Entry::getKey,
+	                    Map.Entry::getValue,
+	                    (v1, v2) -> {
+	                        throw new IllegalStateException();
+	                    },
+	                    LinkedHashMap::new
+	            ));
+
+		
+		
+		Set<String> keys = countByWordSorted.keySet();
+			
+			for (String key : keys) {
+				
+				if(!key.equals("")) {
+				
+				Stats stat = new Stats();
+				
+				stat.setWord(key);
+                stat.setCount(countByWordSorted.get(key));
+                
+                statsList.add(stat);
+				}
+
+			}	
+		}
+		
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+
+		
+		return CompletableFuture.completedFuture(ok(views.html.stats.render(String.valueOf(id),title,statsList)));
+			
+}
+	
+	
 }
