@@ -6,9 +6,37 @@
 
   				     <p align=center	> Flesch Reading Ease Index: &nbsp  @setter.getFleshReadability  &nbsp </p>
   				     <p align=center	> FGKL: &nbsp  @setter.getFleschKincade  &nbsp </p>
+  				     
+  				     <p id="education" align=center> </p>
 	
 	<script>
-
+	
+	var educationLevel = "";
+	
+	var fleschIndex = @setter.getFleshReadability ;
+	
+	if (fleschIndex > 100) {
+      educationLevel = "4th grader";
+    } else if (90 < fleschIndex &&  fleschIndex <= 100) {
+      educationLevel = "5th grader";
+    } else if (80 < fleschIndex && fleschIndex <= 90) {
+      educationLevel = "6th grader";
+    } else if (70 < fleschIndex && fleschIndex <= 80) {
+      educationLevel = "7th grader";
+    } else if (60 < fleschIndex && fleschIndex <= 70) {
+      educationLevel = "8th grader";
+    } else if (50 < fleschIndex && fleschIndex <= 60) {
+      educationLevel = "9th grader";
+    } else if (30 < fleschIndex && fleschIndex <= 50) {
+      educationLevel = "high school graduate";
+    } else if (0 < fleschIndex && fleschIndex <= 30) {
+      educationLevel = "college graduate";
+    } else if (fleschIndex && fleschIndex < 0) {
+      educationLevel = "law school graduate";
+    }
+    
+    document.getElementById("education").innerHTML = "Education Level : " + educationLevel;
+    
     </script>
 
 }
