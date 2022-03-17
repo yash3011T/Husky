@@ -12,7 +12,10 @@
   					<td> @dis.getTime_submitted </td>
   					<td> @dis.getTitle </td>
   					<td> Type: @dis.getType </td>
-  					</tr>
+  					<td>  &nbsp Skills: <a href="http://localhost:9000/freelancelot/@message/skill/@dis.getSkill_id"> @dis.getSkills  &nbsp  </td>
+  					<td> &nbsp  <a href="http://localhost:9000/freelancelot/stats/user/@dis.getOwner_id/@dis.getTitle">  Stats  </a> &nbsp  </td>
+  					<td>  &nbsp <a href="http://localhost:9000/freelancelot/readability/user/@dis.getOwner_id/@dis.getTitle">  Readability  </a> &nbsp  </td>
+					</tr>
 				}
 				</table>
 			</div>
