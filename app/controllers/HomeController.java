@@ -16,8 +16,7 @@ import models.Display;
 public class HomeController extends Controller {
 
 	ArrayList<Display> displayList1 = new ArrayList<Display>();
-
-//     */
+			
 	public CompletionStage<Result> index() {
 		
 		return CompletableFuture.completedFuture(ok(index.render("",0.0,0.0,displayList1)));

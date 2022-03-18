@@ -60,15 +60,16 @@ public class EmployerProfile extends Controller{
 		
 		JsonNode jsonNode = objmap.readTree(sb1.toString());
 		
-				
 		empl.setOwner_id(Long.parseLong(jsonNode.get("result").get("id").asText()));
 		empl.setUsername(jsonNode.get("result").get("username").asText());
-		empl.setRole(jsonNode.get("result").get("role").asText());
+		empl.setReg_date(Long.parseLong(jsonNode.get("result").get("registration_date").asText()));
+		empl.setLimited_acc(jsonNode.get("result").get("limited_account").asText());
+		empl.setDisplay_name(jsonNode.get("result").get("display_name").asText());
 		empl.setCountry(jsonNode.get("result").get("location").get("country").get("name").asText());
-		empl.setTime_zone(jsonNode.get("result").get("timezone").get("timezone").asText());
-		
-		
-		
+		empl.setRole(jsonNode.get("result").get("role").asText());
+		empl.setChosen_role(jsonNode.get("result").get("chosen_role").asText());
+		empl.setEmail_ver(jsonNode.get("result").get("status").get("email_verified").asText());
+		empl.setPri_curr_name(jsonNode.get("result").get("primary_currency").get("name").asText());
 		}
 		
 		catch(Exception e) {
