@@ -5,7 +5,7 @@
 # An example controller showing a sample home page
 GET     /freelancelot              			controllers.HomeController.index()
 +nocsrf
-POST    /freelancelot			   			controllers.HomeController.Search(request: Request)
+POST    /freelancelot			   			controllers.SearchFunction.Search(request: Request)
 GET 	/freelancelot/:message/employer/:id 			controllers.EmployerProfile.employer(message: String, id: Long ,request: Request)
 GET 	/freelancelot/stats/:message/:current 		controllers.WordStat.stats(message: String, current: String, request: Request)
 GET 	/freelancelot/readability/:message/:title 		controllers.FleschReadability.Flesch(message: String, title: String, request: Request)
