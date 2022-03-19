@@ -6,7 +6,12 @@ public class Employer {
 	String username;
 	String country;
 	String role;
-	String time_zone;
+	long reg_date;
+	String limited_acc;
+	String display_name;
+	String chosen_role;
+	String email_ver;
+	String pri_curr_name;
 	
 	public long getOwner_id() {
 		return owner_id;
@@ -36,11 +41,53 @@ public class Employer {
 		this.role = role;
 	}
 	
-	public String getTime_zone() {
-		return time_zone;
+	public long getReg_date() {
+		return reg_date;
 	}
-	public void setTime_zone(String time_zone) {
-		this.time_zone = time_zone;
+	public void setReg_date(long reg_date) {
+		this.reg_date = reg_date;
 	}
-
+	
+	
+	public void setLimited_acc(String limited_acc) {
+		this.limited_acc = limited_acc;
+	}
+	
+	public String getLimited_acc() {
+		return limited_acc;
+	}
+	
+	public void setDisplay_name(String display_name) {
+		this.display_name = display_name;
+	}
+	
+	public String getDisplay_name() {
+		return display_name;
+	}
+	
+	public void setChosen_role(String chosen_role) {
+		this.chosen_role = chosen_role;
+	}
+	
+	public String getChosen_role() {
+		return chosen_role;
+	}
+	
+	public void setEmail_ver(String email_ver) {
+		this.email_ver = email_ver;
+	}
+	
+	public String getEmail_ver() {
+		return email_ver;
+	}
+	
+	public void setPri_curr_name(String pri_curr_name) {
+		this.pri_curr_name = pri_curr_name;
+	}
+	
+	public String getPri_curr_name() {
+		return pri_curr_name;
+	}
+	
+	
 }
