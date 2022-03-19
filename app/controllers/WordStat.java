@@ -97,7 +97,10 @@ public class WordStat extends Controller{
 			i++;
 		}
 		
+		
+		if(title.equals("global")) {
 		title = "Global Stats";
+		}
 		
 		List<String> words = Arrays.asList(statistics.split(" "));
 		
@@ -197,7 +200,11 @@ public class WordStat extends Controller{
 			i++;
 		}
 		
+		
+		if(title.equals("global")) {
 		title = "Global Stats";
+		}
+		
 		
 	
 		List<String> words = Arrays.asList(statistics.split(" "));

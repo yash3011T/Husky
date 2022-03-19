@@ -27,9 +27,6 @@
   					<td>  &nbsp Skills: <a href="#"> @dis.getSkills  &nbsp  </td>
   					<td> &nbsp <a href="http://localhost:9000/freelancelot/stats/@message/@dis.getTitle">  Stats  </a> &nbsp  </td>
   					<td>  &nbsp <a href="#">  Readability  </a> &nbsp  </td>
-
-
-
 					</tr>
 				}
 				</table>
