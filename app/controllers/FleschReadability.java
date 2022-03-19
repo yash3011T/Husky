@@ -118,8 +118,6 @@ public CompletionStage<Result> FleschID(long id, String title, Http.Request requ
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("Accept", "application/json");
 		
-		System.out.println(base_url.concat("?owners[]=").concat(String.valueOf(id)).concat(suffix));
-
 		if (conn.getResponseCode() != 200) {
 			output = "Failed";
 		}

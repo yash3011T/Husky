@@ -21,7 +21,7 @@ public class HomeController extends Controller {
 	public CompletionStage<Result> index() {
 		
 		return CompletableFuture.completedFuture(ok(index.render("",0.0,0.0,displayList1)));
-        
+
 	}
 	
 }

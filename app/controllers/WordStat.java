@@ -52,9 +52,7 @@ public class WordStat extends Controller{
 		StringBuilder sb = new StringBuilder();
 		String output = "";
 		query = keyword;
-		
-		System.out.println(base_url.concat(query.trim().replaceAll(" ", "%20")).concat(suffix));
-		
+			
 		
 		try {
 		URL url = new URL(base_url.concat("active?query=").concat(query.trim().replaceAll(" ", "%20")).concat(suffix));
@@ -78,8 +76,7 @@ public class WordStat extends Controller{
 		conn.disconnect();
 
 		JsonNode jsonNode = objmap.readTree(sb.toString());
-		
-		System.out.println(title);
+
 		
 		int i = 0;
 		
@@ -102,12 +99,7 @@ public class WordStat extends Controller{
 		
 		title = "Global Stats";
 		
-		System.out.println(statistics);
-		
 		List<String> words = Arrays.asList(statistics.split(" "));
-		
-		System.out.println("UNIQUE WORDS  " + words.size());
-		System.out.println("______________________________");
 		
 		
 		Map<String,Long> collect = words.stream()
@@ -185,7 +177,6 @@ public class WordStat extends Controller{
 
 		JsonNode jsonNode = objmap.readTree(sb.toString());
 		
-		System.out.println(title);
 		
 		int i = 0;
 		
@@ -208,14 +199,9 @@ public class WordStat extends Controller{
 		
 		title = "Global Stats";
 		
-		System.out.println(statistics);
-		
+	
 		List<String> words = Arrays.asList(statistics.split(" "));
-		
-		System.out.println("UNIQUE WORDS  " + words.size());
-		System.out.println("______________________________");
-		
-		
+	
 		Map<String,Long> collect = words.stream()
 			    .collect( Collectors.groupingBy( Function.identity(), Collectors.counting() ));
 		

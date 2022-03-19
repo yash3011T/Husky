@@ -40,8 +40,6 @@ public class SkillsSearch extends Controller{
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "application/json");
 			
-			System.out.println(base_url.concat(project_url).concat(String.valueOf(skill_id).concat(suffix)));
-
 			if (conn.getResponseCode() != 200) {
 				output = "Failed";
 			}
