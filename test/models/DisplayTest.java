@@ -95,7 +95,7 @@ class DisplayTest {
 	void testgetStringDate() {
 		Display dis = new Display();
 		dis.setTime_submitted(1647824934);
-		assertEquals("Mar 20, 2022", dis.getStringDate());
+		assertEquals("Jan 19 1970", dis.getStringDate());
 	}
 
 	
