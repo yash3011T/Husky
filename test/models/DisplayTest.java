@@ -94,7 +94,8 @@ class DisplayTest {
 	@Test
 	void testgetStringDate() {
 		Display dis = new Display();
-		assertEquals("Mar 20, 2022", dis.getStringDate(1647824934));
+		dis.setTime_submitted(1647824934);
+		assertEquals("Mar 20, 2022", dis.getStringDate());
 	}
 
 	
