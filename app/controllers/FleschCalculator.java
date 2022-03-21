@@ -10,6 +10,10 @@ import java.util.stream.Stream;
 
 public class FleschCalculator {
 	
+	/**
+	 * @param textToScore
+	 * @return
+	 */
 	public static double[]  calculateScore(String textToScore) {
 		
     double nsentences = 0.0;

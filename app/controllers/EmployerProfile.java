@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import models.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import play.cache.*;
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,13 +21,25 @@ import play.api.libs.json.*;
 import play.mvc.Http.Request;
 
 
+/**
+ * @author Yash
+ *
+ */
 public class EmployerProfile extends Controller{
 	
 	ObjectMapper objmap = new ObjectMapper();
+	
 	Employer empl = new Employer();
 
+	/**
+	 * @param query
+	 * @param id
+	 * @param request
+	 * @return
+	 */
 	public CompletionStage<Result> employer(String query, long id, Http.Request request) {
 		
+
 		final String base_url="https://www.freelancer.com/api/";
 		final String user_url="users/0.1/users/";
 		final String project_url="projects/0.1/projects/?owners[]=";
@@ -38,6 +51,7 @@ public class EmployerProfile extends Controller{
 		String output = "";
 		
 		try {
+			
 		URL url = new URL(base_url.concat(user_url.concat(String.valueOf(id))));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
@@ -127,6 +141,8 @@ public class EmployerProfile extends Controller{
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 		
 		return CompletableFuture.completedFuture(ok(views.html.user.render(query,empl,displayList)));
 	

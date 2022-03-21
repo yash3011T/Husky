@@ -17,5 +17,10 @@ libraryDependencies ++= Seq(
   ehcache
 )
 
-
+libraryDependencies ++= Seq(
+  caffeine
+)
+libraryDependencies ++= Seq(
+  cacheApi
+)
 EclipseKeys.preTasks := Seq(compile in Compile, compile in Test)

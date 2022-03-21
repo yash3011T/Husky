@@ -1,5 +1,6 @@
 package models;
-
+import java.text.SimpleDateFormat;
+import java.util.*;
 public class Display {
 	long owner_id;
 	long time_submitted;
@@ -8,6 +9,7 @@ public class Display {
 	String skills;
 	long skill_id;
 	String description;
+	
 	
 	
 	public long getOwner_id() {
@@ -37,6 +39,13 @@ public class Display {
 	}
 	public void setTime_submitted(long time_submitted) {
 		this.time_submitted = time_submitted;
+	}
+	
+	public String getStringDate() {
+		Date date = new Date(time_submitted);
+		SimpleDateFormat sdate;
+		sdate = new SimpleDateFormat("MMM dd, yyyy");
+		return sdate.format(date);
 	}
 	
 	public String getType() {

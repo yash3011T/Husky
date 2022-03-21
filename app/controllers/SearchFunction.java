@@ -3,6 +3,7 @@ import play.mvc.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import views.html.*;
@@ -13,6 +14,7 @@ import models.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import javax.inject.Inject;
+import play.cache.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,28 +29,62 @@ public class SearchFunction extends Controller{
 	String suffix = "&compact=false&job_details=true";
 	ObjectMapper objmap = new ObjectMapper();
 	ArrayList<Display> displayList = new ArrayList<Display>();
+	ArrayList<ArrayList<Display>> displayObject = new ArrayList<ArrayList<Display>>();
 	ArrayList<FleschSetter> setterList = new ArrayList<FleschSetter>();
 	FleschCalculator flesch= new FleschCalculator();
 
 	double fleschAvg=0;
 	double kincadAvg=0;
 	
-	@Inject
+	
 	FormFactory formFactory;
+	
+	
+	@NamedCache("Session-cache")
+	SyncCacheApi synCache;
+	
+	@Inject
+	public SearchFunction(SyncCacheApi syncApi,FormFactory formfactory){
+		this.synCache = syncApi;
+		this.formFactory=formfactory;
+		
+	}
 	
 public CompletionStage<Result> Search(Http.Request request) {
 		
 		displayList.clear();
+	
+		
+		System.out.println(" BEFORE ");
+		
+		System.out.println(displayObject);
+			System.out.println(" -------------------------------------------- ");
+			System.out.println(" -------------------------------------------- ");
+
+		System.out.println(" AFTER ");
+		
 		double[] values = new double[100];
 	
 		query = formFactory.form().bindFromRequest(request).get("query");
 		
 		final String load = formFactory.form().bindFromRequest(request).get("reload");
 		
+		
+		
 		StringBuilder sb = new StringBuilder();
 		String output = "";
 		
 		try {
+		if(synCache.get("query").isPresent() && synCache.get("query").get().equals(query)) {
+		
+				Optional<ArrayList<Display>> display_cached = synCache.get("display");
+				System.out.println(display_cached);
+				
+				displayList.addAll(display_cached.get());
+			
+		}else {
+		
+			
 		URL url = new URL(base_url.concat("active?query=").concat(query.trim().replaceAll(" ", "%20")).concat(suffix));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
@@ -78,7 +114,7 @@ public CompletionStage<Result> Search(Http.Request request) {
 			Display display = new Display();
 				
 			display.setOwner_id(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("owner_id").asText()));
-			display.setTime_submitted(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("time_submitted").asText()));
+			display.setTime_submitted(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("time_submitted").asText())*1000);
 			display.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText().replaceAll("/"," "));
 			display.setType(jsonNode.get("result").get("projects").get(i).get("type").asText());
 			display.setType(jsonNode.get("result").get("projects").get(i).get("type").asText());		
@@ -111,12 +147,29 @@ public CompletionStage<Result> Search(Http.Request request) {
 			i++;
 			
 		}
+		
+		}
+		
+		synCache.set("display",displayList);
+		synCache.set("query",query);
+		
+		System.out.println(displayObject);
+		System.out.println(" -------------------------------------------- ");
+
+		displayObject.add(displayList);
+		
+		System.out.println(displayObject);
+		System.out.println(" -------------------------------------------- ");
+		System.out.println(" -------------------------------------------- ");
+		
+			
+		
 		}
 		
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+			
 		List <Double> kincadSum = new ArrayList <Double>();
 		List <Double> fleschSum = new ArrayList <Double>();
 		
@@ -130,7 +183,7 @@ public CompletionStage<Result> Search(Http.Request request) {
 		fleschAvg = calculateAverage(fleschSum);
 		kincadAvg = calculateAverage(kincadSum);
 		
-		return CompletableFuture.completedFuture(ok(views.html.index.render(query, fleschAvg , kincadAvg , displayList)));
+		return CompletableFuture.completedFuture(ok(views.html.index.render(query, fleschAvg , kincadAvg , displayList, displayObject)));
 		
 }
 
