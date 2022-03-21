@@ -59,13 +59,25 @@ public class Display {
 		this.skill_id = skill_id;
 	}
 	
+	/**
+	 * Fetch Project Submitted Time
+	 * @return Project Submitted Time
+	 */
 	public long getTime_submitted() {
 		return time_submitted;
 	}
+	/**
+	 * Store Project Submitted Time
+	 * @param time_submitted: Project Submitted Time
+	 */
 	public void setTime_submitted(long time_submitted) {
 		this.time_submitted = time_submitted;
 	}
 	
+	/**
+	 * Fetch Date in required format
+	 * @return Date in required format
+	 */
 	public String getStringDate() {
 		Date date = new Date(time_submitted);
 		SimpleDateFormat sdate;

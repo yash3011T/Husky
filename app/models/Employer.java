@@ -76,9 +76,17 @@ public class Employer {
 		this.role = role;
 	}
 	
+	/**
+	 * Fetch Registration date 
+	 * @return Registration date 
+	 */
 	public long getReg_date() {
 		return reg_date;
 	}
+	/**
+	 * Store Registration date 
+	 * @param reg_date Registration date 
+	 */
 	public void setReg_date(long reg_date) {
 		this.reg_date = reg_date;
 	}
