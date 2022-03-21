@@ -12,7 +12,7 @@ import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.GET;
 import static play.test.Helpers.route;
 
-public class HomeControllerTest extends WithApplication {
+public class SkillSearchTest extends WithApplication {
 
     @Override
     protected Application provideApplication() {
@@ -20,20 +20,20 @@ public class HomeControllerTest extends WithApplication {
     }
 
     @Test
-    public void testIndex() {
+    public void testSkillSearch() {
         Http.RequestBuilder request = new Http.RequestBuilder()
                 .method(GET)
-                .uri("/freelancelot");
+                .uri("/freelancelot/Javascript/skill/9");
 
         Result result = route(app, request);
         assertEquals(OK, result.status());
     }
     
 	@Test
-	void testIndex2() {
+	void testSkillSearch2() {
         Http.RequestBuilder request = new Http.RequestBuilder()
                 .method(GET)
-                .uri("/");
+                .uri("/freelancelot/Javascript/randomstring");
 
         Result result = route(app, request);
         assertEquals(404, result.status());
