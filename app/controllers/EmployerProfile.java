@@ -22,7 +22,7 @@ import play.mvc.Http.Request;
 
 
 /**
- * @author Yash
+ * @author Abhishek Mittal
  *
  */
 public class EmployerProfile extends Controller{
@@ -37,7 +37,6 @@ public class EmployerProfile extends Controller{
 	 * @param query: contains the query that needs to be executed to obtain 10 latest projects of specific Owner_id
 	 * @param id: Owner_id
 	 * @param request: HTTP request
-	 * @author Abhishek Mittal
 	 * @return CompletionStage of employer
 	 */
 	

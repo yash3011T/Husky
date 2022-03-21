@@ -1,6 +1,10 @@
 package models;
 import java.text.SimpleDateFormat;
 import java.util.*;
+/**
+ * @author Yashvi Pithadia
+ *
+ */
 public class Display {
 	long owner_id;
 	long time_submitted;
@@ -8,7 +12,6 @@ public class Display {
 	String type;
 	String skills;
 	long skill_id;
-	
 	
 	
 	public long getOwner_id() {
