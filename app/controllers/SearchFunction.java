@@ -28,8 +28,8 @@ public class SearchFunction extends Controller{
 	String query = "empty";
 	String suffix = "&compact=false&job_details=true";
 	ObjectMapper objmap = new ObjectMapper();
-	ArrayList<Display> displayList = new ArrayList<Display>();
-	ArrayList<ArrayList<Display>> displayObject = new ArrayList<ArrayList<Display>>();
+	
+	ArrayList<SearchObj> searchList = new ArrayList<SearchObj>();
 	ArrayList<FleschSetter> setterList = new ArrayList<FleschSetter>();
 	FleschCalculator flesch= new FleschCalculator();
 
@@ -52,16 +52,8 @@ public class SearchFunction extends Controller{
 	
 public CompletionStage<Result> Search(Http.Request request) {
 		
-		displayList.clear();
-	
-		
-		System.out.println(" BEFORE ");
-		
-		System.out.println(displayObject);
-			System.out.println(" -------------------------------------------- ");
-			System.out.println(" -------------------------------------------- ");
-
-		System.out.println(" AFTER ");
+		ArrayList<Display> displayList = new ArrayList<Display>();
+		SearchObj search = new SearchObj();
 		
 		double[] values = new double[100];
 	
@@ -152,18 +144,7 @@ public CompletionStage<Result> Search(Http.Request request) {
 		
 		synCache.set("display",displayList);
 		synCache.set("query",query);
-		
-		System.out.println(displayObject);
-		System.out.println(" -------------------------------------------- ");
-
-		displayObject.add(displayList);
-		
-		System.out.println(displayObject);
-		System.out.println(" -------------------------------------------- ");
-		System.out.println(" -------------------------------------------- ");
-		
-			
-		
+				
 		}
 		
 		catch(Exception e) {
@@ -183,7 +164,15 @@ public CompletionStage<Result> Search(Http.Request request) {
 		fleschAvg = calculateAverage(fleschSum);
 		kincadAvg = calculateAverage(kincadSum);
 		
-		return CompletableFuture.completedFuture(ok(views.html.index.render(query, fleschAvg , kincadAvg , displayList, displayObject)));
+		
+		search.setQuery(query.toUpperCase());
+		search.setFkgl(kincadAvg);
+		search.setFlesch(fleschAvg);
+		search.setDisplay(displayList);
+		
+		searchList.add(search);
+		
+		return CompletableFuture.completedFuture(ok(views.html.index.render(query, searchList)));
 		
 }
 

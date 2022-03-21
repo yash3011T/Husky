@@ -5,8 +5,15 @@
 	<h1 align="center">Stats for @message : @title</h1>
 	
 		<table align=center	>
-				@for(stat <- stats){
 					
+					<tr>
+					<td> WORDS </td>
+					<td> COUNT </td>
+					</tr>
+					
+					</thead>
+					
+				@for(stat <- stats){
 					<tr>
   				    <td>  &nbsp  @stat.getWord()  </a> &nbsp  </td>
   					<td>  &nbsp  @stat.getCount()  &nbsp  </td>

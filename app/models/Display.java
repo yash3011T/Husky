@@ -8,7 +8,6 @@ public class Display {
 	String type;
 	String skills;
 	long skill_id;
-	String description;
 	
 	
 	
@@ -60,13 +59,6 @@ public class Display {
 	}
 	public void setSkills(String skills) {
 		this.skills = skills;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
 	}
 	
 }

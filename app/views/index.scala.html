@@ -1,4 +1,4 @@
-@( message: String, flesch: Double, fkgl: Double, display: ArrayList[Display], obj : ArrayList[ArrayList[Display]])
+@( message: String,  obj : ArrayList[SearchObj])
 @main("Welcome to Freelancelot") {
   <h1 align="center">Welcome to Freelancelot</h1>
   
@@ -16,21 +16,21 @@
 			@for(listObj <- obj){ 
 			<tr>
 			<td>
-			<div id="search"><p>Search Results for query @message : Flesh Reading Ease Index - @flesch : FKGL - @fkgl</p></div>
+			<div id="search" align="center"><p>Search Results for query <b> @listObj.getQuery </b>: Flesch Reading Ease Index - @listObj.getFlesch : FKGL - @listObj.getFkgl</p></div>
 
-				<p style="font-size:15px"><a href="http://localhost:9000/freelancelot/stats/@message/global"> Global Stats </a> </p>
+				<p style="font-size:15px" align=center><a href="http://localhost:9000/freelancelot/stats/@listObj.getQuery/global"> Global Stats </a> </p>
 				
-				<table align=center>		
-
-				@for(dis <- listObj){
+				<table align=center>	
+				
+				@for(dis <- listObj.getDisplay){
 					<tr>
-  					<td>  &nbsp <a href="http://localhost:9000/freelancelot/@message/employer/@dis.getOwner_id">  @dis.getOwner_id  </a> &nbsp  </td>
+  					<td>  &nbsp <a href="http://localhost:9000/freelancelot/@listObj.getQuery/employer/@dis.getOwner_id">  @dis.getOwner_id  </a> &nbsp  </td>
   					<td>  &nbsp  @dis.getStringDate  &nbsp  </td>
   					<td>  &nbsp  @dis.getTitle  &nbsp  </td>
   					<td>  &nbsp  Type: @dis.getType  &nbsp  </td>
 					<td>  &nbsp Skills: <a href="http://localhost:9000/freelancelot/@dis.getSkills/skill/@dis.getSkill_id"> @dis.getSkills  &nbsp  </td>
-  					<td> &nbsp <a href="http://localhost:9000/freelancelot/stats/@message/@dis.getTitle">  Stats  </a> &nbsp  </td>
-  					<td>  &nbsp <a href="http://localhost:9000/freelancelot/readability/@message/@dis.getTitle">  Readability  </a> &nbsp  </td>
+  					<td> &nbsp <a href="http://localhost:9000/freelancelot/stats/@listObj.getQuery/@dis.getTitle">  Stats  </a> &nbsp  </td>
+  					<td>  &nbsp <a href="http://localhost:9000/freelancelot/readability/@listObj.getQuery/@dis.getTitle">  Readability  </a> &nbsp  </td>
 					</tr>
 				}
 				</table>

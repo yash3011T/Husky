@@ -9,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import models.Display;
+import models.SearchObj;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -16,13 +17,12 @@ import models.Display;
  */
 public class HomeController extends Controller {
 
-	ArrayList<Display> displayList1 = new ArrayList<Display>();
-	ArrayList<ArrayList<Display>> displayList2 = new ArrayList<ArrayList<Display>>();
+	ArrayList<SearchObj> searchList = new ArrayList<SearchObj>();
 
 			
 	public CompletionStage<Result> index() {
 		
-		return CompletableFuture.completedFuture(ok(index.render("",0.0,0.0,displayList1,displayList2)).withNewSession());
+		return CompletableFuture.completedFuture(ok(index.render("",searchList)).withNewSession());
 
 	}
 	

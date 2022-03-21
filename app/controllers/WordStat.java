@@ -53,6 +53,9 @@ public class WordStat extends Controller{
 		String output = "";
 		query = keyword;
 			
+		System.out.println("Query    " + query);
+		System.out.println("title    " + title);
+
 		
 		try {
 		URL url = new URL(base_url.concat("active?query=").concat(query.trim().replaceAll(" ", "%20")).concat(suffix));
