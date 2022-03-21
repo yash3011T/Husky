@@ -144,7 +144,7 @@ public CompletionStage<Result> Search(Http.Request request) {
 		
 		synCache.set("display",displayList);
 		synCache.set("query",query);
-				
+
 		}
 		
 		catch(Exception e) {
