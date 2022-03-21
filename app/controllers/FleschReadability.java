@@ -22,6 +22,10 @@ import play.api.libs.json.*;
 import play.mvc.Http.Request;
 import play.api.libs.json.*;
 
+/**
+ * @author Yash Trivedi
+ *
+ */
 public class FleschReadability extends Controller{
 	
 	final String base_url="https://www.freelancer.com/api/projects/0.1/projects/";
@@ -31,6 +35,12 @@ public class FleschReadability extends Controller{
 	FleschCalculator flesch= new FleschCalculator();
 	
 	
+	/**
+	 * @param keyword: Query
+	 * @param title: Project title
+	 * @param request Array containing Flesch Readability Index value and Flesch–Kincaid grade level
+	 * @return CompletionStage of Flesch
+	 */
 	public CompletionStage<Result> Flesch(String keyword, String title, Http.Request request) {
 		
 		setterList.clear();
@@ -102,6 +112,12 @@ public class FleschReadability extends Controller{
 		return CompletableFuture.completedFuture(ok(views.html.flesch.render(keyword,title,current)));
 	}
 	
+/**
+ * @param id: Owner_id
+ * @param title: Project title
+ * @param request: Http Request 
+ * @return CompletionStage of FleschID
+ */
 public CompletionStage<Result> FleschID(long id, String title, Http.Request request) {
 		
 		setterList.clear();

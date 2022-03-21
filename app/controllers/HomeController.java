@@ -20,6 +20,10 @@ public class HomeController extends Controller {
 	ArrayList<SearchObj> searchList = new ArrayList<SearchObj>();
 
 			
+	/**
+	 * Shows Index
+	 * @return CompletionStage of Result page
+	 */
 	public CompletionStage<Result> index() {
 		
 		return CompletableFuture.completedFuture(ok(index.render("",searchList)).withNewSession());

@@ -22,6 +22,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import play.api.libs.json.*;
 import play.mvc.Http.Request;
 
+/**
+ * @author Tanvi Patel
+ *
+ */
 public class SearchFunction extends Controller{
 	
 	final String base_url="https://www.freelancer.com/api/projects/0.1/projects/";
@@ -39,10 +43,13 @@ public class SearchFunction extends Controller{
 	
 	FormFactory formFactory;
 	
-	
 	@NamedCache("Session-cache")
 	SyncCacheApi synCache;
 	
+	/**
+	 * @param syncApi: SyncCacheApi object 
+	 * @param formfactory: FormFactory object
+	 */
 	@Inject
 	public SearchFunction(SyncCacheApi syncApi,FormFactory formfactory){
 		this.synCache = syncApi;
@@ -50,6 +57,11 @@ public class SearchFunction extends Controller{
 		
 	}
 	
+/**
+ * Find 10 latest project for given input
+ * @param HTTP request
+ * @return CompletionStage of Search
+ */
 public CompletionStage<Result> Search(Http.Request request) {
 		
 		ArrayList<Display> displayList = new ArrayList<Display>();
@@ -176,6 +188,11 @@ public CompletionStage<Result> Search(Http.Request request) {
 		
 }
 
+	/**
+	 * function to calculate average score
+	 * @param score: List of Score
+	 * @return Score average
+	 */
 	private double calculateAverage(List <Double> score) {
 	    return score.stream()
 	                .mapToDouble(d -> d)

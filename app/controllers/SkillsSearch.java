@@ -19,10 +19,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import play.api.libs.json.*;
 import play.mvc.Http.Request;
 
+/**
+ * @author Tanvi Patel
+ *
+ */
 public class SkillsSearch extends Controller{
 	
 	ObjectMapper objmap = new ObjectMapper();
 	
+	/**
+	 * Find 10 latest project for specific skill selected
+	 * @param query: Skill search query
+	 * @param skill_id: Skill ID
+	 * @param request: HTTP request
+	 * @return CompletionStage of Skill
+	 */
 	public CompletionStage<Result> Skill(String query,long skill_id, Http.Request request) {
 		
 		final String base_url="https://www.freelancer.com/api/";

@@ -28,6 +28,10 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
 
+/**
+ * @author Yashvi Pithadia
+ *
+ */
 public class WordStat extends Controller{
 	
 	final String base_url="https://www.freelancer.com/api/projects/0.1/projects/";
@@ -44,6 +48,13 @@ public class WordStat extends Controller{
 		statsList.clear();
 	}
 	
+	/**
+	 * Function for word count
+	 * @param keyword: Query
+	 * @param title: Project Title
+	 * @param request: HTTP request
+	 * @return CompletionStage of stats
+	 */
 	public CompletionStage<Result> stats(String keyword, String title, Http.Request request) {
 		
 		clear_list();
@@ -152,6 +163,13 @@ public class WordStat extends Controller{
 			
 }
 	
+	/**
+	 * To fetch word stats data through owner
+	 * @param id: Owner ID
+	 * @param title: Project Title
+	 * @param request: HTTP Request
+	 * @return CompletionStage of statsID
+	 */
 	public CompletionStage<Result> statsID(long id, String title, Http.Request request) {
 		
 		clear_list();

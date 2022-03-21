@@ -8,11 +8,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
+/**
+ * @author Yash Trivedi
+ *
+ */
+
 public class FleschCalculator {
 	
 	/**
-	 * @param textToScore
-	 * @return
+	 * Method calculating Flesch value
+	 * @param Text for with Flesch value is to be calculated
+	 * @return Array containing Flesch Readability Index value and Flesch–Kincaid grade level  
 	 */
 	public static double[]  calculateScore(String textToScore) {
 		
@@ -54,12 +60,20 @@ public class FleschCalculator {
 }
 
 	
+	/**
+	 * @param str: string of words containing description separated by "."
+	 * @return String without fullstop
+	 */
 	public static List<String> splitSentences(String str){
 	    return Stream.of(str.split("\\."))
 	      .map (elem -> new String(elem))
 	      .collect(Collectors.toList());
 	}
 	
+	/**
+	 * @param str string of words separated by space
+	 * @return string without space
+	 */
 	public static List<String> splitWord(String str){
 	    return Stream.of(str.split("\\s+"))
 	      .map (elem -> new String(elem))
@@ -91,6 +105,10 @@ private static int countSyllables(String words) {
     return count;
 }
 
+/**
+ * @param word: Substring
+ * @return if vowel is present in the word
+ */
 private static boolean silente(String word) {
     word = word.substring(0, word.length() - 1);
 
@@ -103,6 +121,10 @@ private static boolean silente(String word) {
         return false;
 }
 
+/**
+ * @param word: Substring 
+ * @return counting number of syllables
+ */
 private static int countit(String word) {
     int count = 0;
     Pattern splitter = Pattern.compile("[^aeiouy]*[aeiouy]+");

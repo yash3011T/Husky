@@ -90,18 +90,6 @@ class DisplayTest {
 		assertEquals("Translation",dis.getSkills());
 	}
 
-	@Test
-	void testGetDescription() {
-		Display dis = new Display();
-		dis.setDescription("Our share is looking for a freelancer to take on a writing and translation project from English to S");
-		assertEquals("Our share is looking for a freelancer to take on a writing and translation project from English to S",dis.getDescription());
-	}
-
-	@Test
-	void testSetDescription() {
-		Display dis = new Display();
-		dis.setDescription("Our share is looking for a freelancer to take on a writing and translation project from English to S");
-		assertEquals("Our share is looking for a freelancer to take on a writing and translation project from English to S",dis.getDescription());
-	}
+	
 
 }

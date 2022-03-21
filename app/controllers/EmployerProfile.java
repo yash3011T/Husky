@@ -31,12 +31,16 @@ public class EmployerProfile extends Controller{
 	
 	Employer empl = new Employer();
 
-	/**
-	 * @param query
-	 * @param id
-	 * @param request
-	 * @return
+
+/**
+	 * Display owner details and latest 10 projects
+	 * @param query: contains the query that needs to be executed to obtain 10 latest projects of specific Owner_id
+	 * @param id: Owner_id
+	 * @param request: HTTP request
+	 * @author Abhishek Mittal
+	 * @return CompletionStage of employer
 	 */
+	
 	public CompletionStage<Result> employer(String query, long id, Http.Request request) {
 		
 
