@@ -118,7 +118,7 @@ public CompletionStage<Result> Search(Http.Request request) {
 			Display display = new Display();
 				
 			display.setOwner_id(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("owner_id").asText()));
-			display.setTime_submitted(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("time_submitted").asText())*1000);
+			display.setTime_submitted(Long.parseLong(jsonNode.get("result").get("projects").get(i).get("submitdate").asText())*1000);
 			display.setTitle(jsonNode.get("result").get("projects").get(i).get("title").asText().replaceAll("/"," "));
 			display.setType(jsonNode.get("result").get("projects").get(i).get("type").asText());
 			display.setType(jsonNode.get("result").get("projects").get(i).get("type").asText());		

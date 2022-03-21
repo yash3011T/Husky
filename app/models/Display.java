@@ -81,7 +81,7 @@ public class Display {
 	public String getStringDate() {
 		Date date = new Date(time_submitted);
 		SimpleDateFormat sdate;
-		sdate = new SimpleDateFormat("MMM dd, yyyy");
+		sdate = new SimpleDateFormat("MMM dd yyyy");
 		return sdate.format(date);
 	}
 	
