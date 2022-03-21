@@ -13,7 +13,7 @@ class indexTest {
 	@Test
 	public void renderTemplate() {
 		ArrayList<SearchObj> searchlist= new ArrayList<SearchObj>();
-	    Content html = views.html.index.render("",searchList);
+	    Content html = views.html.index.render("",searchlist);
 	  assertEquals("text/html", html.contentType());
 	  assertTrue(contentAsString(html).contains("Welcome to Freelancelot"));
 	}
