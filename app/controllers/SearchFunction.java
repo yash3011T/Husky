@@ -28,7 +28,7 @@ public class SearchFunction extends Controller{
 	String query = "empty";
 	String suffix = "&compact=false&job_details=true";
 	ObjectMapper objmap = new ObjectMapper();
-	ArrayList<Display> displayList = new ArrayList<Display>();
+	
 	ArrayList<ArrayList<Display>> displayObject = new ArrayList<ArrayList<Display>>();
 	ArrayList<FleschSetter> setterList = new ArrayList<FleschSetter>();
 	FleschCalculator flesch= new FleschCalculator();
@@ -52,16 +52,11 @@ public class SearchFunction extends Controller{
 	
 public CompletionStage<Result> Search(Http.Request request) {
 		
-		displayList.clear();
+		
+		ArrayList<Display> displayList = new ArrayList<Display>();
+		
+		
 	
-		
-		System.out.println(" BEFORE ");
-		
-		System.out.println(displayObject);
-			System.out.println(" -------------------------------------------- ");
-			System.out.println(" -------------------------------------------- ");
-
-		System.out.println(" AFTER ");
 		
 		double[] values = new double[100];
 	
@@ -153,15 +148,8 @@ public CompletionStage<Result> Search(Http.Request request) {
 		synCache.set("display",displayList);
 		synCache.set("query",query);
 		
-		System.out.println(displayObject);
-		System.out.println(" -------------------------------------------- ");
-
+		
 		displayObject.add(displayList);
-		
-		System.out.println(displayObject);
-		System.out.println(" -------------------------------------------- ");
-		System.out.println(" -------------------------------------------- ");
-		
 			
 		
 		}
