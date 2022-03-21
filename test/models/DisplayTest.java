@@ -90,6 +90,12 @@ class DisplayTest {
 		dis.setSkills("Translation");
 		assertEquals("Translation",dis.getSkills());
 	}
+	
+	@Test
+	void testgetStringDate() {
+		Display dis = new Display();
+		assertEquals("Mar 20, 2022", dis.getStringDate(1647824934));
+	}
 
 	
 

@@ -25,7 +25,7 @@
 				@for(dis <- listObj.getDisplay){
 					<tr>
   					<td>  &nbsp <a href="http://localhost:9000/freelancelot/@listObj.getQuery/employer/@dis.getOwner_id">  @dis.getOwner_id  </a> &nbsp  </td>
-  					<td>  &nbsp  @dis.getStringDate  &nbsp  </td>
+  					<td>  &nbsp  @dis.getStringDate(@dis.getTime_submitted)  &nbsp  </td>
   					<td>  &nbsp  @dis.getTitle  &nbsp  </td>
   					<td>  &nbsp  Type: @dis.getType  &nbsp  </td>
 					<td>  &nbsp Skills: <a href="http://localhost:9000/freelancelot/@dis.getSkills/skill/@dis.getSkill_id"> @dis.getSkills  &nbsp  </td>

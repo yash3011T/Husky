@@ -43,8 +43,8 @@ public class Display {
 		this.time_submitted = time_submitted;
 	}
 	
-	public String getStringDate() {
-		Date date = new Date(time_submitted);
+	public String getStringDate(long time) {
+		Date date = new Date(time*1000);
 		SimpleDateFormat sdate;
 		sdate = new SimpleDateFormat("MMM dd, yyyy");
 		return sdate.format(date);
